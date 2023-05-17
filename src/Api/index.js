@@ -15,13 +15,18 @@ export const api = {
                 method: METHODS.POST
             }),
     },
-   Post:{
-    get: (data) =>
-    client({
-        url: '/postdata',
-        method: METHODS.GET,
-        ...data
-    }),
-   }
+    profile: {
+        get: (params) =>
+            client({
+                url: 'users/profile',
+                data: params,
+                method: METHODS.GET,
+                headers:{
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                  },
+            }),
+      
+    },
 
 };

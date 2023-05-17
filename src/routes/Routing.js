@@ -16,6 +16,7 @@ import UploadPost from '../containers/pages/UploadPost';
 
 
 
+
 const drawerWidth = 240;
 
 const Routing = () => {
@@ -62,6 +63,7 @@ const Routing = () => {
                 <>
                     <DrawerElement />
                     <UploadPost />
+                  
 
                 </>
             } />

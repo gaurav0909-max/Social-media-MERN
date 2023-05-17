@@ -42,22 +42,22 @@ export default function Category() {
         mt: '20px',
       }}>
         <Grid item md={6} lg={3} >
-          <Button variant="outlined" value="Animal" onClick={(e) => handleFruit()}>
+          <Button variant="outlined" color='error' value="Animal" onClick={(e) => handleFruit()}>
             Fruit
           </Button>
         </Grid>
         <Grid item md={6} lg={3} value="Animal" onClick={(e) => handleAnimal()}>
-          <Button variant="outlined" >
+          <Button variant="outlined" color='error'>
             Animal
           </Button>
         </Grid>
         <Grid item md={6} lg={3} value="Animal" onClick={(e) => handleNature()}>
-          <Button variant="outlined">
+          <Button variant="outlined" color='error'>
             Nature
           </Button>
         </Grid>
         <Grid item md={6} lg={3} value="Animal" onClick={(e) => handleShop()}>
-          <Button variant="outlined">
+          <Button variant="outlined" color='error'>
             Shop
           </Button>
         </Grid>

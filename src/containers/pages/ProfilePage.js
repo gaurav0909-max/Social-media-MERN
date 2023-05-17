@@ -1,53 +1,183 @@
-import { Card, CardMedia } from '@mui/material'
+import { Card, CardActions, IconButton, TextField } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
+// import ButtonGroup from '@mui/material/ButtonGroup';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useRef } from 'react';
 import { DRAWER_WIDTH } from '../../consts/constants';
+import {Dialog,DialogTitle,DialogContent,DialogContentText,DialogActions} from '@mui/material';
+import { Avatar } from '@mui/joy';
+import EditIcon from '@mui/icons-material/Edit';
+// import { store } from '../../redux';
+import { fetchProfileById } from '../../redux/reducers/userProfileSlice';
+import { useDispatch, useSelector } from 'react-redux';
+const BASE_URL='http://localhost:4000/api/'   
+
 function ProfilePage() {
+
+    const dispatch = useDispatch();
+
+    const { profile } = useSelector((state) => state.userProfile)
+
+
+    const[file,setFile]=useState('');
+    const [loading,setLoading]=useState('');
+    const imageHandler = (e) => {
+        console.log(e.target.files);
+        setFile(URL.createObjectURL(e.target.files[0]));
+      }
+    const [formdata,updateFormdata]=useState('');
+
+    const handleChange=(e)=>{
+        updateFormdata({...formdata,
+            [e.target.name]: e.target.value.trim()});
+    }
+
+    const handleSubmit=(e)=>{
+        e.preventDefault()
+    }
+    // console.log(formdata)
+
+    useEffect(() => {dispatch(fetchProfileById()).then((response) => {
+        // do additional work
+        console.log(response)
+        setLoading(false);
+      })
+    },[])
 
     const Ipad = useMediaQuery('(min-width:900px)');
     const windowWidth = useRef(window.innerWidth);
 
-   
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+//  console.log(file)
     return (
         <div >
-            <Card elevation={8} circle={true} sx={{
+            
+            <Card elevation={8} circle="true" sx={{
                 display: 'flex', justifyContent: 'center', md: { justifyContent: 'center' },
                 width: Ipad ? `calc(100% - ${DRAWER_WIDTH}px)` : windowWidth.innerWidth,
                 ml: Ipad ? `${DRAWER_WIDTH}px` : null,
-                mt: '20px'
+                mt: '10px'
             }} >
-                <CardMedia
-                    component="img"
-                    image="https://img.freepik.com/premium-vector/young-smiling-man-adam-avatar-3d-vector-people-character-illustration-cartoon-minimal-style_365941-687.jpg"
-                    alt="CardMedia Image Example"
+                <div style={{display:'flex', flexDirection:"column", marginTop:20}}>
+                <Avatar
+                    display='none'
+                    src={BASE_URL + profile.data}
                     sx={
-                        { width: '100px', md: { width: '200px' } }
-
+                        { width: '100px', height: '100px', borderRadius:'70px'}
                     }
-                    title="CardMedia Image Example"
                 />
+                <Typography variant='overline'>{formdata.fullName}</Typography>
+                </div>
+                
                 <CardContent sx={{ display: { xs: 'none', md: 'block' } }}>
                     <Typography gutterBottom variant="h5" component="div">
                         USER PROFILE
                     </Typography>
-                    <Typography variant="h4" color="text.secondary">
-                    {localStorage.getItem('data.email').split('@')[0].toUpperCase()}
-                   
-                    </Typography>
-                    <ButtonGroup variant="outlined" sx={{ gap: "50px" }}>
-                        <Button>Posts</Button>
-                        <Button >Follwers</Button>
-                        <Button>Following</Button>
-                             
-                    </ButtonGroup>
                     
-                   
+                    <Typography variant="h4" color="text.secondary">
+                    {/* {localStorage.getItem('data.email').split('@')[0].toUpperCase()} */}
+                    {formdata.Username}
+                    {/* {localStorage.getItem('token')} */}
+                    </Typography>
+                        <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
+                           <div>
+                                <Typography>10</Typography>
+                                <Button color='error'>Posts</Button>
+                           </div>
+                            <div>
+                                <Typography>100</Typography>
+                                <Button color='error'>Follwers</Button>
+                            </div>
+                           <div>
+                                <Typography>110</Typography>
+                                <Button color='error'>Following</Button>  
+                           </div>
+                        </div>
+                       {/* <ButtonGroup variant="outlined" sx={{ gap: "50px" , m:2}}>
+                          <Button>Posts</Button>
+                          <Button >Follwers</Button>
+                          <Button>Following</Button>     
+                       </ButtonGroup> */}
+                       
+                      <Typography sx={{p:1}}>
+                        {formdata.bio}
+                      </Typography>
+                      {/* <Typography sx={{p:1}}>
+                      My hobbies are Travelling and Photography...
+                      </Typography>
+                      <Typography sx={{p:1}}>
+                      here is my some of memories that defines my life.
+                      </Typography> */}
                 </CardContent>
+                <CardActions>
+               <IconButton sx={{marginBottom:'40px'}} color='error' onClick={handleClickOpen}> 
+               <EditIcon/>
+               </IconButton>
+                <Dialog open={open} onClose={handleClose} circle={true}>
+                    <DialogTitle>Edit Profile</DialogTitle>
+                     <DialogContent>
+                     <DialogContentText>
+                        Make changes to your profile
+                     </DialogContentText>
+                     <TextField
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      name="Username"
+                      label="Username"
+                      type="Username"
+                      onChange={handleChange}
+                      fullWidth
+                      variant="standard"
+                       />
+                       <TextField
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="fullName"
+                      name="fullName"
+                      type="fullName"
+                      onChange={handleChange}
+                      fullWidth
+                      variant="standard"
+                       />
+                       <TextField
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      name="bio"
+                      label="bio"
+                      type="bio"
+                      fullWidth
+                      onChange={handleChange}
+                      variant="standard"
+                       />
+                       <Avatar 
+                       sx={{
+                            width:300,
+                            height:300
+                       }} >
+                       <input  type='file' name='image'  accept= "image/png, image/jpeg, image/jpg" loading={loading} onChange={imageHandler}/>
+                       </Avatar>
+                       
+                       </DialogContent>
+                      <DialogActions>
+                              <Button color='error' onClick={handleClose}>Cancel</Button>
+                              < Button color='error' onClick={(e)=>{handleSubmit(e); handleClose()}}>Update</Button>
+                      </DialogActions>
+                </Dialog>
+                </CardActions>
             </Card>
             
         </div>
@@ -130,14 +260,14 @@ export default ProfilePage
 //         display: 'flex', justifyContent: 'center', md: { justifyContent: 'center' },
 //                         width: Ipad ? `calc(100% - ${DRAWER_WIDTH}px)` : windowWidth.innerWidth,
 //                         ml: Ipad ? `${DRAWER_WIDTH}px` : null,
-//                         mt: '20px'
+//                         mt: '10px'
 //     }}>
 //         <CardMedia
 //                     component="img"
 //                     image="https://img.freepik.com/premium-vector/young-smiling-man-adam-avatar-3d-vector-people-character-illustration-cartoon-minimal-style_365941-687.jpg"
 //                     alt="CardMedia Image Example"
 //                     sx={
-//                         { width: '500px', md: { width: '200px' } }
+//                         { width: '500px', md: { width: '100px' } }
 
 //                     }
 //                     title="CardMedia Image Example"
@@ -145,7 +275,7 @@ export default ProfilePage
 //     <form 
 //      onSubmit={handleSubmit}>
 //       <TextField
-//         label="Username"
+//         name="Username"
 //         name="username"
 //         variant="outlined"
 //         onChange={(e)=>handleChange(e)}
@@ -153,7 +283,7 @@ export default ProfilePage
 //         margin="normal"
 //       />
 //       <TextField
-//         label="Bio"
+//         name="Bio"
 //         name="bio"
 //         variant="outlined"
 //         onChange={(e)=>handleChange(e)}
@@ -163,7 +293,7 @@ export default ProfilePage
 //         rows={3}
 //       />
 //       <TextField
-//         label="Phone"
+//         name="Phone"
 //         name="phone"
 //         variant="outlined"
 //         onChange={(e)=>handleChange(e)}
@@ -171,7 +301,7 @@ export default ProfilePage
 //         margin="normal"
 //       />
 //       <TextField
-//         label="Website"
+//         name="Website"
 //         name='website'
 //         variant="outlined"
 //         onChange={(e)=>handleChange(e)}

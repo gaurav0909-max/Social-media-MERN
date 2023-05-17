@@ -57,7 +57,8 @@ const Login = () => {
         else {
             setLogin(true);
             Navigate("/home")
-            localStorage.setItem("data.email", data.email)
+            // localStorage.setItem("data.email", data.email)
+            localStorage.setItem("token", Data.data.token);
         }
         console.log(Data.data.token)
         
