@@ -28,5 +28,18 @@ export const api = {
             }),
       
     },
+    post: {
+        create: (params) =>
+            client({
+                url: 'users/post',
+                data: params,
+                method: METHODS.POST,
+                // headers:{
+                //     'Content-type': 'application/json',
+                //     'Authorization': `Bearer ${localStorage.getItem('token')}`
+                //   },
+            }),
+      
+    },
 
 };

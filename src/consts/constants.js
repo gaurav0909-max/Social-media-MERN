@@ -41,3 +41,49 @@ export const NotificationList = [
     time: 'Monday 9:35 pm'
   }
 ]
+
+  export const data = [
+  {
+    id: 1,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/014/194/218/small/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg',
+    userName: 'gaurav0909',
+    fullName:'Gaurav Patel'
+  },
+  {
+    id: 2,
+    img: 'https://static.vecteezy.com/system/resources/previews/014/194/215/original/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg',
+    userName: 'jayhind123',
+    fullName: 'Jayhind'
+  },
+  {
+    id: 3,
+    img: 'https://static.vecteezy.com/system/resources/previews/014/194/232/original/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg',
+    userName: 'harsh102',
+    fullName: 'Harsh Prajapati'
+  },
+  {
+    id: 4,
+    img: 'https://static.vecteezy.com/system/resources/previews/014/194/198/non_2x/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg',
+    userName: 'hiren2002',
+    fullName: 'Hiren Prajapati'
+  },
+  {
+    id: 5,
+    img: 'https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-293.jpg',
+    userName: 'yogesh977',
+    fullName: 'Yogesh Zala'
+  },
+  {
+    id: 6,
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRX-p-Tg4B6D7FqXNQpY-N34KcO9npm9PkfQLElEYV4GRCSfiwpRmem2OcAM0SUcYIh1s&usqp=CAU',
+    userName: 'sujal07',
+    fullName: 'Sujal Shah'
+  },
+  {
+    id: 7,
+    img: 'https://static.vecteezy.com/system/resources/thumbnails/020/194/531/small/avatar-of-a-character-with-casual-outfit-free-vector.jpg',
+    userName: 'Mahi777',
+    fullName: 'MS Dhoni'
+  }
+
+];

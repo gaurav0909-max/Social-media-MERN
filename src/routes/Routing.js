@@ -13,6 +13,7 @@ import DrawerElement from '../containers/pages/drawer';
 import Login from '../containers/pages/login';
 import SignUp from '../containers/pages/signUp';
 import UploadPost from '../containers/pages/UploadPost';
+import Search from '../widgets/searchBar';
 
 
 
@@ -31,7 +32,6 @@ const Routing = () => {
             <Route path="/register" element={<SignUp />} />
             <Route path="/home" element={
                 <>
-
                     <Grid container columns={18} sx={{
                         width: Ipad ? `calc(100% - ${drawerWidth}px)` : '100%',
                         ml: Ipad ? `${drawerWidth}px` : null,
@@ -46,25 +46,20 @@ const Routing = () => {
                         <Grid item md={9} lg={6}>
                             {Avatars2?.map(({ id, img }) => <InstagramPost key={id} {...{ id, img }} />)}
                         </Grid>
-
                     </Grid>
-
                     <DrawerElement />
                 </>
             } />
             <Route path="/category" element={
                 <>
                     <DrawerElement />
-                    <Category />
-
+                    <Category /> 
                 </>
             } />
              <Route path="/upload" element={
                 <>
                     <DrawerElement />
                     <UploadPost />
-                  
-
                 </>
             } />
             <Route path='/Profile' element={
@@ -72,15 +67,15 @@ const Routing = () => {
                     <DrawerElement />
                     <ProfilePage />
                     <UserPost />
-
                 </>
             } />
-            <Route path='/Notifications' element={
+            <Route path='/search' element={
                 <>
                     <DrawerElement />
-                    <NotificationsPage />
-
+                    {/* <NotificationsPage /> */}
+                    <Search />
                 </>
+                
             } />
         </Routes>
 

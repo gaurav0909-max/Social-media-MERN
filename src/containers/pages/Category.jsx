@@ -40,22 +40,22 @@ export default function Category() {
         ml: Ipad ? `${drawerWidth}px` : null,
         mt: '20px',
       }}>
-        <Grid item md={6} lg={3} >
+        <Grid item={true} md={6} lg={3} >
           <Button variant="outlined" color='error' value="Animal" onClick={(e) => handleFruit()}>
             Fruit
           </Button>
         </Grid>
-        <Grid item md={6} lg={3} value="Animal" onClick={(e) => handleAnimal()}>
+        <Grid item={true} md={6} lg={3} value="Animal" onClick={(e) => handleAnimal()}>
           <Button variant="outlined" color='error'>
             Animal
           </Button>
         </Grid>
-        <Grid item md={6} lg={3} value="Animal" onClick={(e) => handleNature()}>
+        <Grid item={true} md={6} lg={3} value="Animal" onClick={(e) => handleNature()}>
           <Button variant="outlined" color='error'>
             Nature
           </Button>
         </Grid>
-        <Grid item md={6} lg={3} value="Animal" onClick={(e) => handleShop()}>
+        <Grid item={true} md={6} lg={3} value="Animal" onClick={(e) => handleShop()}>
           <Button variant="outlined" color='error'>
             Shop
           </Button>
@@ -71,7 +71,7 @@ export default function Category() {
           type === "" ?
             CategoryItems.map((data, index) => (
 
-              <Card item sx={{
+              <Card item={true} sx={{
                 width: Ipad ? `calc(100% - ${drawerWidth}px)` : '100%',
                 maxWidth: 345,
               }} key={index} >

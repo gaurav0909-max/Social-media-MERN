@@ -6,6 +6,7 @@ import { NotificationList } from '../../consts/constants';
 function NotificationsPage() {
 
   const Ipad = useMediaQuery('(min-width:900px)');
+  
   return (
 
     <Grid sx={{
@@ -14,13 +15,13 @@ function NotificationsPage() {
       mt: '20px'
     }} >
       {NotificationList?.map((data, index) => (
-        <Card sx={{ display: 'flex', mt: 4, boxShadow: 4 }} key={index}>
+        <Card sx={{ display: 'flex', mt: 4, boxShadow: 4 }} key={index} >
           <Avatar
             size="sm"
             src={data.img}
             sx={{ border: '2px solid', height: '70px', width: '70px', ml: '20px' }}
           />
-          <div>
+          <div >
             <Typography align='center' variant='h3' sx={{ paddingLeft: 5 }}>
               {data.title}
             </Typography>

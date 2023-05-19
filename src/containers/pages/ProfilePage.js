@@ -38,12 +38,12 @@ function ProfilePage() {
     const handleSubmit=(e)=>{
         e.preventDefault()
     }
-    // console.log(formdata)
 
     useEffect(() => {dispatch(fetchProfileById()).then((response) => {
         // do additional work
         console.log(response.payload.data.userName)
         updateFormdata(response.payload.data)
+    //    setFile(BASE_URL + response.payload.data.profileImage)
         setLoading(false);
       })
     },[dispatch])
@@ -74,7 +74,7 @@ function ProfilePage() {
                 <Avatar
                     display='none'
                     // src ={file}
-                    src={ profile.data.profileImage && BASE_URL + profile.data.profileImage}
+                    src={profile.data.profileImage &&  BASE_URL + profile.data.profileImage}
                     sx={
                         { width: '100px', height: '100px', borderRadius:'70px'}
                     }

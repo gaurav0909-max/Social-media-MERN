@@ -21,7 +21,7 @@ export default function InstagramPost({ id, img }) {
   // const[username,setUsername] = useState('');
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const handleChange = (e) => {
-  
+    setvalue('')
     setCommentValue(e.target.value);
   }
   const handleValue = () => {
@@ -65,7 +65,7 @@ export default function InstagramPost({ id, img }) {
           
         </Typography>
         <IconButton variant="plain" color="neutral" size="sm" sx={{ ml: 'auto' }}>
-          <ICONS.Dots />
+          <ICONS.Dots/>
         </IconButton>
       </Box>
 

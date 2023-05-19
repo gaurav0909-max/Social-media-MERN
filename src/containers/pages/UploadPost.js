@@ -8,8 +8,10 @@ function UploadPost() {
   const Ipad = useMediaQuery('(min-width:900px)');
   const [file, setFile] = useState('');
   const imageHandler = (e) => {
-    console.log(e.target.files);
+    // console.log(e.target.files);
     setFile(URL.createObjectURL(e.target.files[0]));
+    localStorage.setItem("file",URL.createObjectURL(e.target.files[0]))
+     
   }
 
   const handleSubmit = (e) => {
@@ -33,7 +35,7 @@ function UploadPost() {
 
         </div>
         <AspectRatio objectFit="contain" sx={{ m: 5, borderRadius: '30px' }}>
-          <img src={file} alt='Upload your files here' />
+          <img src={localStorage.getItem("file")} alt='Upload your files here' />
         </AspectRatio>
         <TextField
           autoFocus
@@ -41,6 +43,7 @@ function UploadPost() {
           id="name"
           label="Caption"
           type="caption"
+          required
           placeholder=' “Life is a journey, not a destination.”- Anonymous'
           InputProps={{
             startAdornment: (
