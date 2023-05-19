@@ -10,7 +10,7 @@ import IconButton from '@mui/joy/IconButton';
 import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 import { useState } from 'react';
-import { Checkbox } from '@mui/material';
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Icon, TextField } from '@mui/material';
 import { ICONS } from '../Assets/Icons';
 
 
@@ -27,8 +27,17 @@ export default function InstagramPost({ id, img }) {
   const handleValue = () => {
     setvalue(commentValue)
   }
+  const [open, setOpen] = React.useState(false);
 
- 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
   return (
     <Card
       variant="outlined"
@@ -51,21 +60,21 @@ export default function InstagramPost({ id, img }) {
               m: '-2px',
               borderRadius: '50%',
               background:
-                'linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)',
+                'linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 70%)',
             },
           }}
         >
           <Avatar
             size="sm"
-            src="https://png.pngtree.com/png-vector/20220817/ourmid/pngtree-cartoon-man-avatar-with-beard-vector-ilustration-png-image_6110777.png"
+            src="https://png.pngtree.com/png-vector/20220817/ourmid/pngtree-cartoon-man-avatar-with-beard-vector-ilustration-png-image_617777.png"
             sx={{ p: 0.5, border: '2px solid', borderColor: 'background.body' }}
           />
         </Box>
         <Typography fontWeight="lg">
-          
+
         </Typography>
         <IconButton variant="plain" color="neutral" size="sm" sx={{ ml: 'auto' }}>
-          <ICONS.Dots/>
+          <ICONS.Dots />
         </IconButton>
       </Box>
 
@@ -82,8 +91,9 @@ export default function InstagramPost({ id, img }) {
           <IconButton variant="plain" color="neutral" size="sm">
             <Checkbox {...label} icon={<ICONS.LikeBorder sx={{ color: 'red' }} />} checkedIcon={<ICONS.Like sx={{ color: 'red' }} />} />
           </IconButton>
-          <IconButton variant="plain" color="neutral" size="sm">
-            <Checkbox {...label} icon={<ICONS.CommentsBorder sx={{ color: 'black' }} />} checkedIcon={<ICONS.Comments sx={{ color: 'black' }} />} />
+          <IconButton variant="plain" color="neutral" size="sm" onClick={handleClickOpen}>
+            {/* <Checkbox {...label} icon={<ICONS.CommentsBorder sx={{ color: 'black' }} />} checkedIcon={<ICONS.Comments sx={{ color: 'black' }} />} /> */}
+            <ICONS.CommentsBorder />
           </IconButton>
           <IconButton variant="plain" color="neutral" size="sm">
             <ICONS.Share />
@@ -115,12 +125,12 @@ export default function InstagramPost({ id, img }) {
       <Link
         component="button"
         underline="none"
-        fontSize="10px"
+        fontSize="7px"
         sx={{ color: 'text.tertiary', my: 0.5 }}
       >
         2 DAYS AGO
       </Link>
-      <CardOverflow sx={{ p: 'var(--Card-padding)', display: 'flex' }}>
+      {/* <CardOverflow sx={{ p: 'var(--Card-padding)', display: 'flex' }}>
         <IconButton size="sm" variant="plain" color="neutral" sx={{ ml: -1 }}>
           <ICONS.Face />
         </IconButton>
@@ -134,7 +144,113 @@ export default function InstagramPost({ id, img }) {
         <Link role="button" onClick={handleValue} >
           Post
         </Link>
-      </CardOverflow>
+      </CardOverflow> */}
+      <Dialog open={open} onClose={handleClose} circle={true}>
+
+
+        <div style={{
+          display:'flex',
+          flexDirection:'row',
+          justifyContent: "space-between",
+        }}>
+          <DialogTitle>Comments</DialogTitle>
+          <Button onClick={handleClose} color='error'>
+            <ICONS.Cross />
+          </Button>
+        </div>
+        <Divider />
+        <DialogContent>
+          <DialogContentText>
+            All comments will be shown here!
+          </DialogContentText>
+
+          <Card sx={{ display: 'flex', flexDirection: 'row', gap: 7 }}>
+            <Avatar
+              src='https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360'
+              sx={{ border: '2px solid', height: '70px', width: '70px' }}
+            />
+            <div>
+              <Typography variant='h5' textColor='#FF0080'>
+                gaurav0909
+              </Typography>
+              <Typography variant='subtitle1'>
+                You and strong Wi-Fi are what I only need in my life.
+              </Typography>
+            </div>
+
+          </Card>
+          <Card sx={{ display: 'flex', flexDirection: 'row', gap: 7 }}>
+            <Avatar
+              src='https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360'
+              sx={{ border: '2px solid', height: '70px', width: '70px' }}
+            />
+            <div>
+              <Typography variant='h5' textColor='#FF0080'>
+                gaurav0909
+              </Typography>
+              <Typography variant='subtitle1'>
+                You and strong Wi-Fi are what I only need in my life.
+              </Typography>
+            </div>
+
+          </Card>
+          <Card sx={{ display: 'flex', flexDirection: 'row', gap: 7 }}>
+            <Avatar
+              src='https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360'
+              sx={{ border: '2px solid', height: '70px', width: '70px' }}
+            />
+            <div>
+              <Typography variant='h5' textColor='#FF0080'>
+                gaurav0909
+              </Typography>
+              <Typography variant='subtitle1'>
+                This has such a clean composition
+              </Typography>
+            </div>
+
+          </Card>
+          <Card sx={{ display: 'flex', flexDirection: 'row', gap: 7 }}>
+            <Avatar
+              src='https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360'
+              sx={{ border: '2px solid', height: '70px', width: '70px' }}
+            />
+            <div>
+              <Typography variant='h5' textColor='#FF0080'>
+                gaurav0909
+              </Typography>
+              <Typography variant='subtitle1'>
+                You and strong Wi-Fi are what I only need in my life.
+              </Typography>
+            </div>
+
+          </Card>
+          <Card sx={{ display: 'flex', flexDirection: 'row', gap: 7 }}>
+            <Avatar
+              src='https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360'
+              sx={{ border: '2px solid', height: '70px', width: '70px' }}
+            />
+            <div>
+              <Typography variant='h5' textColor='#FF0080'>
+                Mahi777
+              </Typography>
+              <Typography variant='subtitle1'>
+                How do you make a phone selfie look so professional?
+              </Typography>
+            </div>
+
+          </Card>
+        </DialogContent>
+        <DialogActions>
+          <TextField
+            fullWidth
+            name='comments'
+            label="Add your comments"
+
+          />
+          <Button color='error' onClick={handleClose}>Post</Button>
+          {/* < Button color='error' onClick={(e)=>{handleSubmit(e); handleClose()}}>Update</Button> */}
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 }

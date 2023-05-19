@@ -1,12 +1,12 @@
 import React from 'react'
 import { Grid, Paper, Avatar, TextField, Link, Button, Typography } from '@mui/material';
 import { ICONS } from '../../Assets/Icons';
+import { useSnackbar } from "notistack";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { paperStyle, avatarStyle, TextFieldStyle, btnstyle } from '../../consts/constants';
 import { api } from '../../Api';
-
 
 const Login = () => {
 
@@ -20,7 +20,7 @@ const Login = () => {
     const [error, setError] = useState(false);
     
     const Ipad = useMediaQuery('(min-width:1000px)');
-
+    const { enqueueSnackbar }= useSnackbar();
     const handleValidate=(name,value)=>{
         switch(name){
             case 'email':
@@ -41,7 +41,6 @@ const Login = () => {
         setError({
             ...error,[name]:handleValidate(name,value)
         })
-        console.log(data)
 
     };
 
@@ -49,19 +48,20 @@ const Login = () => {
     const handleLogin = async () => {
 
         const Data = await api.auth.login(data)
-        console.log(Data);
+        console.log(Data.data);
 
-        if (Data.data.Password === " password was incoreect") {
+        if (Data.data.Password === "Incorrect password !") {
             setLogin(false)
+            enqueueSnackbar('Please Try Again', { variant: 'error' });
         }
         else {
             setLogin(true);
             Navigate("/home")
             // localStorage.setItem("data.email", data.email)
             localStorage.setItem("token", Data.data.token);
+            enqueueSnackbar('Login Successful', { variant: 'success' });
         }
         console.log(Data.data.token)
-        
     }
     const handleSubmit = async (e) => {
       e.preventDefault();

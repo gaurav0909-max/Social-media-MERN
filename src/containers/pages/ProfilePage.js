@@ -2,7 +2,6 @@ import { Card, CardActions, IconButton, TextField } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button';
-// import ButtonGroup from '@mui/material/ButtonGroup';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useRef } from 'react';
@@ -10,7 +9,6 @@ import { DRAWER_WIDTH } from '../../consts/constants';
 import {Dialog,DialogTitle,DialogContent,DialogContentText,DialogActions} from '@mui/material';
 import { Avatar } from '@mui/joy';
 import EditIcon from '@mui/icons-material/Edit';
-// import { store } from '../../redux';
 import { fetchProfileById } from '../../redux/reducers/userProfileSlice';
 import { useDispatch, useSelector } from 'react-redux';
 const BASE_URL='http://localhost:4000/api'   
@@ -40,10 +38,9 @@ function ProfilePage() {
     }
 
     useEffect(() => {dispatch(fetchProfileById()).then((response) => {
-        // do additional work
-        console.log(response.payload.data.userName)
+        // console.log(response.payload.data.userName)
         updateFormdata(response.payload.data)
-    //    setFile(BASE_URL + response.payload.data.profileImage)
+       setFile(BASE_URL + response.payload.data.profileImage)
         setLoading(false);
       })
     },[dispatch])
@@ -68,13 +65,14 @@ function ProfilePage() {
                 display: 'flex', justifyContent: 'center', md: { justifyContent: 'center' },
                 width: Ipad ? `calc(100% - ${DRAWER_WIDTH}px)` : windowWidth.innerWidth,
                 ml: Ipad ? `${DRAWER_WIDTH}px` : null,
-                mt: '10px'
+                mt: '10px',
+                borderRadius:'10px'
             }} >
                 <div style={{display:'flex', flexDirection:"column", marginTop:20}}>
                 <Avatar
                     display='none'
-                    // src ={file}
-                    src={profile.data.profileImage &&  BASE_URL + profile.data.profileImage}
+                    src ={file}
+                    // src={profile.data.profileImage &&  BASE_URL + profile.data.profileImage}
                     sx={
                         { width: '100px', height: '100px', borderRadius:'70px'}
                     }
@@ -95,15 +93,15 @@ function ProfilePage() {
                         <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
                            <div>
                                 <Typography>10</Typography>
-                                <Button color='error'>Posts</Button>
+                                <Button variant='contained' color='error'>Posts</Button>
                            </div>
                             <div>
                                 <Typography>100</Typography>
-                                <Button color='error'>Follwers</Button>
+                                <Button variant='contained' color='error'>Follwers</Button>
                             </div>
                            <div>
                                 <Typography>110</Typography>
-                                <Button color='error'>Following</Button>  
+                                <Button variant='contained' color='error'>Following</Button>  
                            </div>
                         </div>
                        {/* <ButtonGroup variant="outlined" sx={{ gap: "50px" , m:2}}>

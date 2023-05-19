@@ -14,6 +14,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import SearchIcon from '@mui/icons-material/Search';
+import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 export const ICONS = {
  Login: LoginIcon,
  Lock: LockOpenIcon,
@@ -30,5 +31,6 @@ export const ICONS = {
  Profile: AccountBoxIcon,
  Exit: LogoutIcon,
  Upload: AddBoxIcon,
- Search:SearchIcon
+ Search:SearchIcon,
+ Cross: DisabledByDefaultIcon
 }

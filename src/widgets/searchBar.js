@@ -5,9 +5,9 @@ import { DRAWER_WIDTH } from "../consts/constants";
 import { Avatar, Card, Typography, useMediaQuery } from "@mui/material";
 import { data } from "../consts/constants";
 import { useNavigate } from "react-router-dom";
-import { Directions } from "@mui/icons-material";
+
 const SearchBar = ({ setSearchQuery }) => (
-    <form>
+    <form name="search-form">
         <TextField
             id="search-bar"
             className="text"
@@ -36,6 +36,7 @@ export default function Search() {
     const navigate = useNavigate();
     const dataFiltered = filterData(searchQuery, data);
     const Ipad = useMediaQuery('(min-width:900px)');
+    
 
     return (
         <div
@@ -50,9 +51,8 @@ export default function Search() {
         >
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <div style={{ padding: 3 }}>
-                {dataFiltered?.map((d) => (
-
-                    <Card
+                {dataFiltered?.map((d) => {
+                    return <Card
                         className="text"
                         sx={{
                             padding: 3,
@@ -67,7 +67,7 @@ export default function Search() {
                             gap: 10
                         }}
                         key={d.id}
-                        onClick={(d) => navigate(`/${d.userName}`)}
+                        onClick={() => navigate(`/${d.userName}`)}
                     >
                         <Avatar
 
@@ -84,7 +84,8 @@ export default function Search() {
                         </div>
 
                     </Card>
-                ))}
+                }
+                )}
             </div>
         </div>
     );
