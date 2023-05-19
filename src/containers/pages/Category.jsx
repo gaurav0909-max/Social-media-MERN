@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import Grid from '@mui/material/Grid';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Button from '@mui/material/Button';
@@ -70,9 +69,7 @@ export default function Category() {
       }} >
         {
           type === "" ?
-
             CategoryItems.map((data, index) => (
-
 
               <Card item sx={{
                 width: Ipad ? `calc(100% - ${drawerWidth}px)` : '100%',
@@ -88,7 +85,6 @@ export default function Category() {
                     {data.label}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-
                     {data.details}
                   </Typography>
                 </CardContent>
@@ -97,7 +93,6 @@ export default function Category() {
                   <Button size="small" onClick={handleFeedback}>Not bad</Button>
                 </CardActions>
               </Card>
-
             ))
 
             :
@@ -108,19 +103,16 @@ export default function Category() {
                 <Card sx={{
                   width: Ipad ? `calc(100% - ${drawerWidth}px)` : '100%',
                   maxWidth: 345,
-
                 }} key={index}>
                   <CardMedia
                     sx={{ height: 400 }}
                     image={data.img}
-
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
                       {data.label}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-
                       {data.details}
                     </Typography>
                   </CardContent>
@@ -133,15 +125,11 @@ export default function Category() {
               ))
 
         }
-
-
-
       </Grid>
 
     </div>
   )
 }
-
 
 const CategoryItems = [
   {

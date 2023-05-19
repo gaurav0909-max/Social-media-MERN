@@ -7,4 +7,8 @@ export const store = configureStore({
     Token:tokenReducer,
     userProfile: userProfileSlice
   },
+  middleware: (getDefaultMiddleware) =>
+  getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 })

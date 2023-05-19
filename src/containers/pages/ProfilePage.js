@@ -13,7 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 // import { store } from '../../redux';
 import { fetchProfileById } from '../../redux/reducers/userProfileSlice';
 import { useDispatch, useSelector } from 'react-redux';
-const BASE_URL='http://localhost:4000/api/'   
+const BASE_URL='http://localhost:4000/api'   
 
 function ProfilePage() {
 
@@ -42,10 +42,11 @@ function ProfilePage() {
 
     useEffect(() => {dispatch(fetchProfileById()).then((response) => {
         // do additional work
-        console.log(response)
+        console.log(response.payload.data.userName)
+        updateFormdata(response.payload.data)
         setLoading(false);
       })
-    },[])
+    },[dispatch])
 
     const Ipad = useMediaQuery('(min-width:900px)');
     const windowWidth = useRef(window.innerWidth);
@@ -72,7 +73,8 @@ function ProfilePage() {
                 <div style={{display:'flex', flexDirection:"column", marginTop:20}}>
                 <Avatar
                     display='none'
-                    src={BASE_URL + profile.data}
+                    // src ={file}
+                    src={ profile.data.profileImage && BASE_URL + profile.data.profileImage}
                     sx={
                         { width: '100px', height: '100px', borderRadius:'70px'}
                     }
@@ -87,7 +89,7 @@ function ProfilePage() {
                     
                     <Typography variant="h4" color="text.secondary">
                     {/* {localStorage.getItem('data.email').split('@')[0].toUpperCase()} */}
-                    {formdata.Username}
+                    {formdata.userName}
                     {/* {localStorage.getItem('token')} */}
                     </Typography>
                         <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
@@ -134,9 +136,9 @@ function ProfilePage() {
                       autoFocus
                       margin="dense"
                       id="name"
-                      name="Username"
-                      label="Username"
-                      type="Username"
+                      name="userName"
+                      label="userName"
+                      type="userName"
                       onChange={handleChange}
                       fullWidth
                       variant="standard"

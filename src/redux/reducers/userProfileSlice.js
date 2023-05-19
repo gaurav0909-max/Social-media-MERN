@@ -27,8 +27,6 @@ export const userProfileSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchProfileById.fulfilled, (state, action) => {
             state.profile.data = action.payload.data;
-
-            console.log(action.payload.data);
         });
         builder.addCase(fetchProfileById.pending, (state, action) => {
             state.profile.loading = true;
