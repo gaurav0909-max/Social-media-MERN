@@ -16,7 +16,7 @@ import Search from '../widgets/searchBar';
 
 const drawerWidth = 240;
 
-const Routing = () => {
+const Routing = ({userName}) => {
     const Ipad = useMediaQuery('(min-width:900px)');
     return (
 
@@ -65,7 +65,7 @@ const Routing = () => {
                     <UserPost />
                 </>
             } />
-            <Route path='/search' element={
+            <Route path='/search/' element={
                 <>
                     <DrawerElement />
                     <Search />

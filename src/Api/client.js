@@ -1,6 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
-const BASE_URL='http://localhost:4000/api/'
+export const BASE_URL='http://localhost:4000/api/'
 // const BASE_URL='http://192.168.0.28:4000/api/'
 
 export const METHODS = {

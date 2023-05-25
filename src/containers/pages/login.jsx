@@ -91,10 +91,10 @@ const Login = () => {
                     <Avatar style={avatarStyle}><ICONS.Login /></Avatar>
                     <h2 >Log In</h2>
                 </Grid>
-                <TextField label='Email' name='email' placeholder='Enter Your Email' value={data.email} required
+                <TextField type='email' label='Email' name='email' placeholder='Enter Your Email' value={data.email} required
                     variant="outlined" fullWidth style={TextFieldStyle} onChange={(e) => handleChange(e)} />
                 <span>{error['email']}</span>
-                <TextField label='Password' name='password' value={data.password} placeholder='Enter password' required
+                <TextField type='password' label='Password' name='password' value={data.password} placeholder='Enter password' required
                     variant="outlined" fullWidth onChange={(e) => handleChange(e)} style={TextFieldStyle} />
 
                 <span>{error['password']}</span>

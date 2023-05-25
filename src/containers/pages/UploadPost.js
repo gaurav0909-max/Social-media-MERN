@@ -1,48 +1,63 @@
 import React, { useState } from 'react'
 import { Button, Card, CardContent, CardHeader, InputAdornment, TextField, useMediaQuery } from '@mui/material'
 import { AspectRatio } from '@mui/joy';
-
+import { api } from '../../Api';
 import KeyboardAltIcon from '@mui/icons-material/KeyboardAlt';
 function UploadPost() {
   const drawerWidth = 240;
   const Ipad = useMediaQuery('(min-width:900px)');
   const [file, setFile] = useState('');
-  const imageHandler = (e) => {
+  const [caption, setCaption] = useState('');
+  // const [img, setImg] = useState('');
+
+  const imageHandler = async (e) => {
     // console.log(e.target.files);
-    setFile(URL.createObjectURL(e.target.files[0]));
-    localStorage.setItem("file",URL.createObjectURL(e.target.files[0]))
-     
+    if (e.target.files[0]) {
+      setFile(e.target.files[0]);
+      // formdata.append('postImage',file)
+    }
+    await localStorage.setItem("postImage", URL.createObjectURL(e.target.files[0]))
+    
   }
 
-  const handleSubmit = (e) => {
-    console.log("hello")
+  const handleSubmit = async () => {
+    const formdata = new FormData();
+    formdata.append('postImage', file)
+    formdata.append('caption', caption)
+    console.log('formdata', file)
+    const Data = await api.createPost.post(formdata)
+    console.log(Data)
   }
+
+
   return (
 
 
     <Card sx={{
       width: Ipad ? `calc(100% - ${drawerWidth}px)` : '100%',
       ml: Ipad ? `${drawerWidth}px` : null,
-      mt: 10,
+      mt: 7,
       alignContent: 'center',
       border: "1px solid black",
-      backgroundColor: '#ee9ca7'
+      backgroundColor: '#F8C8DC'
     }}>
       <CardHeader title="Upload Post" />
       <CardContent>
         <div className="uploadImage">
-          <input type='file' name="image" accept="image/*" multiple={false} onChange={imageHandler} />
+          <input type='file' id='name' name="postImage" accept="image/*" onChange={imageHandler} />
 
         </div>
-        <AspectRatio objectFit="contain" sx={{ m: 5, borderRadius: '30px' }}>
-          <img src={localStorage.getItem("file")} alt='Upload your files here' />
+        <AspectRatio objectFit="contain" sx={{ m: 4, borderRadius: '30px' }}>
+          <img src={localStorage.getItem("postImage")} alt='Upload your files here' />
         </AspectRatio>
         <TextField
           autoFocus
           margin="dense"
           id="name"
+          name='caption'
           label="Caption"
           type="caption"
+          onChange={(e) => setCaption(e.target.value)}
           required
           placeholder=' “Life is a journey, not a destination.”- Anonymous'
           InputProps={{

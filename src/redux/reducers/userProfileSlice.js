@@ -7,12 +7,12 @@ export const fetchProfileById = createAsyncThunk('userProfile/fetchProfileById',
         return response;
     } catch (error) {}
 });
-// export const editProfileById = createAsyncThunk('userProfile/editProfileById', async (data) => {
-//     try {
-//         const response = await api.profile.get();
-//         return response.data.data;
-//     } catch (error) {}
-// });
+export const editProfileById = createAsyncThunk('userProfile/editProfileById', async () => {
+    try {
+        const response = await api.profile.put(FormData);
+        return response;
+    } catch (error) {}
+});
 const initialState = {
     profile:{loading:false, data:{}},
     editProfile:{loading:false, data:{}}
@@ -30,8 +30,9 @@ export const userProfileSlice = createSlice({
         });
         builder.addCase(fetchProfileById.pending, (state, action) => {
             state.profile.loading = true;
-
-        
+        });
+        builder.addCase(editProfileById.fulfilled, (state, action) => {
+            state.profile.data = action.payload.data;
         });
     }
 });

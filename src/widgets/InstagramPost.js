@@ -7,18 +7,19 @@ import Card from '@mui/joy/Card';
 import CardOverflow from '@mui/joy/CardOverflow';
 import Link from '@mui/joy/Link';
 import IconButton from '@mui/joy/IconButton';
-import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 import { useState } from 'react';
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Icon, TextField } from '@mui/material';
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, TextField } from '@mui/material';
 import { ICONS } from '../Assets/Icons';
+import { fetchProfileById } from '../redux/reducers/userProfileSlice';
+import { useDispatch } from 'react-redux';
 
 
 
 export default function InstagramPost({ id, img }) {
   const [commentValue, setCommentValue] = useState('');
   const [value, setvalue] = useState('');
-  // const[username,setUsername] = useState('');
+  const[data,updatedata] = useState('');
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const handleChange = (e) => {
     setvalue('')
@@ -36,7 +37,11 @@ export default function InstagramPost({ id, img }) {
   const handleClose = () => {
     setOpen(false);
   };
-
+  const dispatch = useDispatch()
+  React.useEffect(() => {dispatch(fetchProfileById()).then((response) => {
+    updatedata(response.payload.data)
+  })
+},[dispatch])
 
   return (
     <Card
@@ -66,12 +71,12 @@ export default function InstagramPost({ id, img }) {
         >
           <Avatar
             size="sm"
-            src="https://png.pngtree.com/png-vector/20220817/ourmid/pngtree-cartoon-man-avatar-with-beard-vector-ilustration-png-image_617777.png"
-            sx={{ p: 0.5, border: '2px solid', borderColor: 'background.body' }}
+            src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png"
+            sx={{ p: 0.5, borderColor: 'background.body' }}
           />
         </Box>
         <Typography fontWeight="lg">
-
+          Instagram
         </Typography>
         <IconButton variant="plain" color="neutral" size="sm" sx={{ ml: 'auto' }}>
           <ICONS.Dots />
@@ -83,8 +88,6 @@ export default function InstagramPost({ id, img }) {
           <img src={img} alt="" loading="lazy" />
         </AspectRatio>
       </CardOverflow>
-
-
 
       <Box sx={{ display: 'flex', alignItems: 'center', mx: -1, my: 1 }}>
         <Box sx={{ width: 0, display: 'flex', gap: 0.5 }}>
@@ -111,7 +114,7 @@ export default function InstagramPost({ id, img }) {
         5.1M Likes
       </Link>
       <Typography fontSize="sm">
-        {value}
+        {/* {value} */}
       </Typography>
       <Link
         component="button"
@@ -130,30 +133,13 @@ export default function InstagramPost({ id, img }) {
       >
         2 DAYS AGO
       </Link>
-      {/* <CardOverflow sx={{ p: 'var(--Card-padding)', display: 'flex' }}>
-        <IconButton size="sm" variant="plain" color="neutral" sx={{ ml: -1 }}>
-          <ICONS.Face />
-        </IconButton>
-        <Input
-          variant="plain"
-          size="sm"
-          placeholder="Add a comment…"
-          onChange={handleChange}
-          sx={{ flexGrow: 1, mr: 1, '--Input-focusedThickness': '0px' }}
-        />
-        <Link role="button" onClick={handleValue} >
-          Post
-        </Link>
-      </CardOverflow> */}
       <Dialog open={open} onClose={handleClose} circle={true}>
-
-
         <div style={{
-          display:'flex',
-          flexDirection:'row',
+          display: 'flex',
+          flexDirection: 'row',
           justifyContent: "space-between",
         }}>
-          <DialogTitle>Comments</DialogTitle>
+          <DialogTitle color='#FF0080'>Comments</DialogTitle>
           <Button onClick={handleClose} color='error'>
             <ICONS.Cross />
           </Button>
@@ -167,7 +153,7 @@ export default function InstagramPost({ id, img }) {
           <Card sx={{ display: 'flex', flexDirection: 'row', gap: 7 }}>
             <Avatar
               src='https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360'
-              sx={{ border: '2px solid', height: '70px', width: '70px' }}
+              sx={{ height: '70px', width: '70px' }}
             />
             <div>
               <Typography variant='h5' textColor='#FF0080'>
@@ -182,14 +168,14 @@ export default function InstagramPost({ id, img }) {
           <Card sx={{ display: 'flex', flexDirection: 'row', gap: 7 }}>
             <Avatar
               src='https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360'
-              sx={{ border: '2px solid', height: '70px', width: '70px' }}
+              sx={{ height: '70px', width: '70px' }}
             />
             <div>
               <Typography variant='h5' textColor='#FF0080'>
-                gaurav0909
+                Jayhind123
               </Typography>
               <Typography variant='subtitle1'>
-                You and strong Wi-Fi are what I only need in my life.
+                You really light up a room…and my Instagram feed.
               </Typography>
             </div>
 
@@ -197,7 +183,7 @@ export default function InstagramPost({ id, img }) {
           <Card sx={{ display: 'flex', flexDirection: 'row', gap: 7 }}>
             <Avatar
               src='https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360'
-              sx={{ border: '2px solid', height: '70px', width: '70px' }}
+              sx={{ height: '70px', width: '70px' }}
             />
             <div>
               <Typography variant='h5' textColor='#FF0080'>
@@ -212,7 +198,7 @@ export default function InstagramPost({ id, img }) {
           <Card sx={{ display: 'flex', flexDirection: 'row', gap: 7 }}>
             <Avatar
               src='https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360'
-              sx={{ border: '2px solid', height: '70px', width: '70px' }}
+              sx={{ height: '70px', width: '70px' }}
             />
             <div>
               <Typography variant='h5' textColor='#FF0080'>
@@ -227,7 +213,7 @@ export default function InstagramPost({ id, img }) {
           <Card sx={{ display: 'flex', flexDirection: 'row', gap: 7 }}>
             <Avatar
               src='https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360'
-              sx={{ border: '2px solid', height: '70px', width: '70px' }}
+              sx={{ height: '70px', width: '70px' }}
             />
             <div>
               <Typography variant='h5' textColor='#FF0080'>
@@ -239,16 +225,45 @@ export default function InstagramPost({ id, img }) {
             </div>
 
           </Card>
+          <Card sx={{ display: 'flex', flexDirection: 'row', gap: 7 }}>
+            <Avatar
+              src='https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360'
+              sx={{ height: '70px', width: '70px' }}
+            />
+            <div>
+              <Typography variant='h5' textColor='#FF0080'>
+                hiren4434
+              </Typography>
+              <Typography variant='subtitle1'>
+                Excuse me, but who is this model I’m following?
+              </Typography>
+            </div>
+
+          </Card><Card sx={{ display: 'flex', flexDirection: 'row', gap: 7 }}>
+            <Avatar
+              src='https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360'
+              sx={{ height: '70px', width: '70px' }}
+            />
+            <div>
+              <Typography variant='h5' textColor='#FF0080'>
+                {data.userName}
+              </Typography>
+              <Typography variant='subtitle1'>
+                {value}
+              </Typography>
+            </div>
+
+          </Card>
+
         </DialogContent>
         <DialogActions>
           <TextField
             fullWidth
             name='comments'
             label="Add your comments"
-
+            onChange={handleChange}
           />
-          <Button color='error' onClick={handleClose}>Post</Button>
-          {/* < Button color='error' onClick={(e)=>{handleSubmit(e); handleClose()}}>Update</Button> */}
+          <Button color='error' onClick={() => { handleValue(); }}>Post</Button>
         </DialogActions>
       </Dialog>
     </Card>

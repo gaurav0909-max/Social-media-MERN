@@ -21,25 +21,60 @@ export const api = {
                 url: 'users/profile',
                 data: params,
                 method: METHODS.GET,
-                headers:{
+                headers: {
                     'Content-type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
-                  },
+                },
             }),
-      
-    },
-    post: {
-        create: (params) =>
+        put: (params) =>
             client({
-                url: 'users/post',
+                url: 'users/profile',
+                data: params,
+                method: METHODS.PUT,
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+            }),
+
+    },
+    search: {
+        get: (searchTerm, params) =>
+            client({
+                url: `users/search?${searchTerm}`,
+                data: params,
+                method: METHODS.GET,
+            })
+
+    },
+    createPost: {
+        post: (params) => 
+        {
+                // console.log('params', params)
+                
+               return client({
+                url: 'posts',
                 data: params,
                 method: METHODS.POST,
-                // headers:{
-                //     'Content-type': 'application/json',
-                //     'Authorization': `Bearer ${localStorage.getItem('token')}`
-                //   },
-            }),
-      
+                headers: {
+                    'Content-type': 'multipart/form-data',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+            })},
+            get: (params) => 
+            {
+                    // console.log('params', params)
+                    
+                   return client({
+                    url: 'posts',
+                    data: params,
+                    method: METHODS.GET,
+                    // headers: {
+                    //     'Content-type': 'multipart/form-data',
+                    //     'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    // },
+                })}
+        
     },
 
 };

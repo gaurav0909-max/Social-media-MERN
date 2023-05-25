@@ -11,6 +11,7 @@ import { Avatar } from '@mui/joy';
 import EditIcon from '@mui/icons-material/Edit';
 import { fetchProfileById } from '../../redux/reducers/userProfileSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { api } from '../../Api';
 const BASE_URL='http://localhost:4000/api'   
 
 function ProfilePage() {
@@ -18,32 +19,39 @@ function ProfilePage() {
     const dispatch = useDispatch();
 
     const { profile } = useSelector((state) => state.userProfile)
+    
+    let formdata= new FormData();    
 
-
-    const[file,setFile]=useState('');
+    const[profileImage,setProfileImage]=useState('');
     const [loading,setLoading]=useState('');
     const imageHandler = (e) => {
-        console.log(e.target.files);
-        setFile(URL.createObjectURL(e.target.files[0]));
+        // console.log(e.target.files);
+        setProfileImage(URL.createObjectURL(e.target.files[0]));
+        if(e.target.files[0]){
+            formdata.append('profileImage',profileImage)
+        }
       }
-    const [formdata,updateFormdata]=useState('');
+    const [data,updatedata]=useState('');
 
     const handleChange=(e)=>{
-        updateFormdata({...formdata,
-            [e.target.name]: e.target.value.trim()});
+        updatedata({...data,
+            [e.target.name]: e.target.value});
     }
 
-    const handleSubmit=(e)=>{
+    const handleSubmit=async(e)=>{
         e.preventDefault()
+        const Data = await api.profile.put(data,formdata)
+        console.log(Data)
     }
 
     useEffect(() => {dispatch(fetchProfileById()).then((response) => {
         // console.log(response.payload.data.userName)
-        updateFormdata(response.payload.data)
-       setFile(BASE_URL + response.payload.data.profileImage)
+        updatedata(response.payload.data)
+        setProfileImage(BASE_URL + response.payload.data.profileImage)
         setLoading(false);
       })
     },[dispatch])
+    
 
     const Ipad = useMediaQuery('(min-width:900px)');
     const windowWidth = useRef(window.innerWidth);
@@ -71,13 +79,13 @@ function ProfilePage() {
                 <div style={{display:'flex', flexDirection:"column", marginTop:20}}>
                 <Avatar
                     display='none'
-                    src ={file}
+                    src ={profileImage}
                     // src={profile.data.profileImage &&  BASE_URL + profile.data.profileImage}
                     sx={
                         { width: '100px', height: '100px', borderRadius:'70px'}
                     }
                 />
-                <Typography variant='overline'>{formdata.fullName}</Typography>
+                <Typography variant='overline'>{data.fullName}</Typography>
                 </div>
                 
                 <CardContent sx={{ display: { xs: 'none', md: 'block' } }}>
@@ -87,7 +95,7 @@ function ProfilePage() {
                     
                     <Typography variant="h4" color="text.secondary">
                     {/* {localStorage.getItem('data.email').split('@')[0].toUpperCase()} */}
-                    {formdata.userName}
+                    {data.userName}
                     {/* {localStorage.getItem('token')} */}
                     </Typography>
                         <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
@@ -111,7 +119,7 @@ function ProfilePage() {
                        </ButtonGroup> */}
                        
                       <Typography sx={{p:1}}>
-                        {formdata.bio}
+                        {data.bio}
                       </Typography>
                       {/* <Typography sx={{p:1}}>
                       My hobbies are Travelling and Photography...
@@ -124,7 +132,7 @@ function ProfilePage() {
                <IconButton sx={{marginBottom:'40px'}} color='error' onClick={handleClickOpen}> 
                <EditIcon/>
                </IconButton>
-                <Dialog open={open} onClose={handleClose} circle={true}>
+                <Dialog open={open} onClose={handleClose} >
                     <DialogTitle>Edit Profile</DialogTitle>
                      <DialogContent>
                      <DialogContentText>
@@ -168,7 +176,8 @@ function ProfilePage() {
                             width:300,
                             height:300
                        }} >
-                       <input  type='file' name='image'  accept= "image/png, image/jpeg, image/jpg" loading={loading} onChange={imageHandler}/>
+                       <input  type='file' id="name" name='profileImage'  accept= "image/png, image/jpeg, image/jpg" loading={loading}
+                       onChange={(e)=>{handleChange(e); imageHandler(e);}}/>
                        </Avatar>
                        
                        </DialogContent>
