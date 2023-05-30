@@ -14,6 +14,7 @@ import SignUp from '../containers/pages/signUp';
 import UploadPost from '../containers/pages/UploadPost';
 import Search from '../widgets/searchBar';
 import CustomizeProfile from '../containers/pages/CustomizeProfile'
+
 const drawerWidth = 240;
 
 const Routing = ({ userName }) => {
@@ -23,7 +24,6 @@ const Routing = ({ userName }) => {
         <Routes>
             <Route path="*" element={<Error404 />} />
             <Route path="/" element={<Login />} />
-
             <Route path="/Logout" element={<Login />} />
             <Route path="/register" element={<SignUp />} />
             <Route path="/home" element={
@@ -70,13 +70,13 @@ const Routing = ({ userName }) => {
                     <DrawerElement />
                     <Search />
                 </>
-                
+
 
             } />
             <Route path='/:userName' element={
                 <>
                     <DrawerElement />
-                    < CustomizeProfile/>
+                    < CustomizeProfile />
                     {/* <UserPost /> */}
                 </>
 

@@ -11,7 +11,7 @@ export default function UserPost() {
   const drawerWidth = 240;
   const Ipad = useMediaQuery('(min-width:900px)');
 
-
+  
   return (
     <div>
 
@@ -20,8 +20,7 @@ export default function UserPost() {
           width: Ipad ? `calc(100% - ${drawerWidth}px)` : '100%', height: '700px',
           ml: Ipad ? `${drawerWidth}px` : null,
           mt: '20px',
-        }}
-        columns={18}>
+        }} columns={18}>
 
         {data.data.posts.map((item, index) => (
           <ImageListItem sm={18} key={index}>

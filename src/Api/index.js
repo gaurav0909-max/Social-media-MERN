@@ -22,7 +22,7 @@ export const api = {
                 data: params,
                 method: METHODS.GET,
                 headers: {
-                    'Content-type': 'application/json',
+                    'Content-type': 'multipart/form-data',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
             }),

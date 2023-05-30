@@ -1,25 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import  { api} from '../../Api';
-
-// Create an asyncThunk
-
-// export const fetchData = createAsyncThunk('data/fetchData', async () => {
-//   try {
-//       const response = await api.myPost.get();
-//       console.log(response)
-//   } catch (error) {}
-// });
+import { api } from '../../Api';
 
 export const fetchData = createAsyncThunk('data/fetchData', async () => {
   try {
-    // Perform an asynchronous operation (e.g., fetch data from an API)
     const response = await api.myPost.get()
     return response;
   } catch (error) {
     throw new Error('Error fetching data: ' + error.message);
   }
 });
-
 
 // Create a slice
 const dataSlice = createSlice({
@@ -32,15 +21,15 @@ const dataSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchData.pending, (state) => {
-        state.error = null;
-        state.data = null;
-      })
-      builder.addCase(fetchData.fulfilled, (state, action) => {
-        state.data = action.payload;
-      })
-      builder.addCase(fetchData.rejected, (state, action) => {
-        state.error = action.error.message;
-      });
+      state.error = null;
+      state.data = null;
+    })
+    builder.addCase(fetchData.fulfilled, (state, action) => {
+      state.data = action.payload;
+    })
+    builder.addCase(fetchData.rejected, (state, action) => {
+      state.error = action.error.message;
+    });
   },
 });
 

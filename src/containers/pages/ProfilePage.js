@@ -17,9 +17,8 @@ function ProfilePage() {
 
     const dispatch = useDispatch();
 
-    const { profile } = useSelector((state) => state.userProfile)
-    console.log(profile)  
-    
+    const {profile} = useSelector((state) => state.userProfile);
+
     const [data,updatedata]=useState('');
     const[profileImage,setProfileImage]=useState('');
     const [loading,setLoading]=useState('');
