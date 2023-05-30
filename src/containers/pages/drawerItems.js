@@ -14,12 +14,12 @@ const drawerItems = [
   {
     id: 2,
     label: 'Search',
-    icon: <ICONS.Search/>
+    icon: <ICONS.Search />
   },
   {
     id: 5,
     label: 'Upload',
-    icon: <ICONS.Upload/>
+    icon: <ICONS.Upload />
   },
   {
     id: 3,

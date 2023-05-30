@@ -1,6 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
-export const BASE_URL='http://localhost:4000/api/'
+export const BASE_URL = 'http://localhost:4000/api/'
 // const BASE_URL='http://192.168.0.28:4000/api/'
 
 export const METHODS = {
@@ -25,14 +25,14 @@ const client = ({ method = METHODS.POST, url = BASE_URL, data, useCache = false,
     useCache && !invalidateQuery && cache[url]
         ? Promise.resolve(cache[url])
         : request({
-              method,
-              url,
-              data,
-                paramsSerializer,
-              ...rest
-          });
+            method,
+            url,
+            data,
+            paramsSerializer,
+            ...rest
+        });
 
-export const clientWithHeaders = ({ method = METHODS.POST, url = BASE_URL, data,headers, useCache = false, invalidateQuery = false, ...rest }) =>
+export const clientWithHeaders = ({ method = METHODS.POST, url = BASE_URL, data, headers, useCache = false, invalidateQuery = false, ...rest }) =>
     request({
         method,
         url,

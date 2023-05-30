@@ -19,7 +19,8 @@ import { useDispatch } from 'react-redux';
 export default function InstagramPost({ id, img }) {
   const [commentValue, setCommentValue] = useState('');
   const [value, setvalue] = useState('');
-  const[data,updatedata] = useState('');
+
+  const [data, updatedata] = useState('');
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const handleChange = (e) => {
     setvalue('')
@@ -38,10 +39,11 @@ export default function InstagramPost({ id, img }) {
     setOpen(false);
   };
   const dispatch = useDispatch()
-  React.useEffect(() => {dispatch(fetchProfileById()).then((response) => {
-    updatedata(response.payload.data)
-  })
-},[dispatch])
+  React.useEffect(() => {
+    dispatch(fetchProfileById()).then((response) => {
+      updatedata(response.payload.data)
+    })
+  }, [dispatch])
 
   return (
     <Card
@@ -113,9 +115,6 @@ export default function InstagramPost({ id, img }) {
       >
         5.1M Likes
       </Link>
-      <Typography fontSize="sm">
-        {/* {value} */}
-      </Typography>
       <Link
         component="button"
         underline="none"

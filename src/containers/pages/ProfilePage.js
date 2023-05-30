@@ -12,27 +12,23 @@ import EditIcon from '@mui/icons-material/Edit';
 import { fetchProfileById } from '../../redux/reducers/userProfileSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../../Api';
-const BASE_URL='http://localhost:4000/api'   
 
 function ProfilePage() {
 
     const dispatch = useDispatch();
 
     const { profile } = useSelector((state) => state.userProfile)
+    console.log(profile)  
     
-    let formdata= new FormData();    
-
+    const [data,updatedata]=useState('');
     const[profileImage,setProfileImage]=useState('');
     const [loading,setLoading]=useState('');
     const imageHandler = (e) => {
-        // console.log(e.target.files);
-        setProfileImage(URL.createObjectURL(e.target.files[0]));
         if(e.target.files[0]){
-            formdata.append('profileImage',profileImage)
+            setProfileImage(e.target.files[0]);
         }
       }
-    const [data,updatedata]=useState('');
-
+   
     const handleChange=(e)=>{
         updatedata({...data,
             [e.target.name]: e.target.value});
@@ -40,14 +36,22 @@ function ProfilePage() {
 
     const handleSubmit=async(e)=>{
         e.preventDefault()
-        const Data = await api.profile.put(data,formdata)
+        let formdata= new FormData(); 
+        formdata.append('userName', data.userName)
+        formdata.append('fullName', data.fullName)
+        formdata.append('bio', data.bio)
+        formdata.append('profileImage',profileImage)
+
+        console.log(formdata)
+        const Data = await api.profile.put(formdata)
         console.log(Data)
+        
     }
 
     useEffect(() => {dispatch(fetchProfileById()).then((response) => {
         // console.log(response.payload.data.userName)
         updatedata(response.payload.data)
-        setProfileImage(BASE_URL + response.payload.data.profileImage)
+        setProfileImage(response.payload.data.profileImage)
         setLoading(false);
       })
     },[dispatch])
@@ -79,8 +83,8 @@ function ProfilePage() {
                 <div style={{display:'flex', flexDirection:"column", marginTop:20}}>
                 <Avatar
                     display='none'
-                    src ={profileImage}
-                    // src={profile.data.profileImage &&  BASE_URL + profile.data.profileImage}
+                    // src ={profileImage}
+                    src={profile.data.profileImage }
                     sx={
                         { width: '100px', height: '100px', borderRadius:'70px'}
                     }
@@ -176,8 +180,8 @@ function ProfilePage() {
                             width:300,
                             height:300
                        }} >
-                       <input  type='file' id="name" name='profileImage'  accept= "image/png, image/jpeg, image/jpg" loading={loading}
-                       onChange={(e)=>{handleChange(e); imageHandler(e);}}/>
+                       <input  type='file' id="name" name='profileImage'  accept= "image/png, image/jpeg, image/jpg" loading={true}
+                       onChange={(e)=>{ imageHandler(e);}}/>
                        </Avatar>
                        
                        </DialogContent>

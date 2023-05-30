@@ -59,9 +59,7 @@ export default function SignUp() {
   const Register = async () => {
     const Data = await api.auth.register(data)
     console.log(Data)
-    
   }
-
 
   useEffect(() => { console.log(data) }, [data])
 
@@ -95,7 +93,9 @@ export default function SignUp() {
 
           Everyday is a new start of our life !
         </Typography>
-        <Link href='/' >
+        <Link href='/' sx={{
+          color: 'orange'
+        }}>
           Log in
         </Link>
       </Paper>

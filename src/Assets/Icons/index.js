@@ -16,21 +16,21 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import SearchIcon from '@mui/icons-material/Search';
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 export const ICONS = {
- Login: LoginIcon,
- Lock: LockOpenIcon,
- Comments:ModeCommentIcon,
- CommentsBorder:ModeCommentOutlinedIcon,
- Like : Favorite,
- Face : Face,
- Dots: MoreHoriz,
- LikeBorder: FavoriteBorder,
- Share: SendOutlined,
- Home: OtherHousesIcon,
- Category: CategoryIcon,
- Notification: CircleNotificationsIcon,
- Profile: AccountBoxIcon,
- Exit: LogoutIcon,
- Upload: AddBoxIcon,
- Search:SearchIcon,
- Cross: DisabledByDefaultIcon
+    Login: LoginIcon,
+    Lock: LockOpenIcon,
+    Comments: ModeCommentIcon,
+    CommentsBorder: ModeCommentOutlinedIcon,
+    Like: Favorite,
+    Face: Face,
+    Dots: MoreHoriz,
+    LikeBorder: FavoriteBorder,
+    Share: SendOutlined,
+    Home: OtherHousesIcon,
+    Category: CategoryIcon,
+    Notification: CircleNotificationsIcon,
+    Profile: AccountBoxIcon,
+    Exit: LogoutIcon,
+    Upload: AddBoxIcon,
+    Search: SearchIcon,
+    Cross: DisabledByDefaultIcon
 }

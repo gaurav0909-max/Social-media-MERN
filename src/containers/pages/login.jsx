@@ -14,38 +14,39 @@ const Login = () => {
         email: '',
         password: ''
     }
+    
     const Navigate = useNavigate();
     const [data, setData] = useState(initialState);
     const [login, setLogin] = useState(false);
     const [error, setError] = useState(false);
-    
     const Ipad = useMediaQuery('(min-width:1000px)');
-    const { enqueueSnackbar }= useSnackbar();
-    const handleValidate=(name,value)=>{
-        switch(name){
+    const { enqueueSnackbar } = useSnackbar();
+
+    const handleValidate = (name, value) => {
+        switch (name) {
             case 'email':
-                if(!value || value.trim() === '') {
+                if (!value || value.trim() === '') {
                     return 'Email is required';
-                }else return '';
+                } else return '';
 
             case 'password':
-                if(!value || value.trim() === '') {
+                if (!value || value.trim() === '') {
                     return 'Password is required';
-                }else return '';
-                default: return '';
+                } else return '';
+            default: return '';
+        }
     }
-}
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setData({ ...data, [name]: value });
         setError({
-            ...error,[name]:handleValidate(name,value)
+            ...error, [name]: handleValidate(name, value)
         })
 
     };
 
-
-    const handleLogin = async () => {
+    const handleLogin = async () => { 
 
         const Data = await api.auth.login(data)
         console.log(Data.data);
@@ -63,23 +64,24 @@ const Login = () => {
         }
         console.log(Data.data.token)
     }
+
     const handleSubmit = async (e) => {
-      e.preventDefault();
-      
-      let errorObj = {}
-      
-      Object.keys(data).forEach((value) => {
-        let error = handleValidate(value, data[value])
-        if(error){
-          errorObj[value] = error
+        e.preventDefault();
+        let errorObj = {}
+
+        Object.keys(data).forEach((value) => {
+            let error = handleValidate(value, data[value])
+            if (error) {
+                errorObj[value] = error
+            }
+        })
+        if (Object.values(errorObj).length) {
+            setError(errorObj)
+            return
         }
-      })
-      if(Object.values(errorObj).length){
-        setError(errorObj)
-        return
-      }
-      await handleLogin()
+        await handleLogin()
     }
+
     return (
         <Grid sx={{ display: 'flex', flexDirection: Ipad ? 'row' : 'Column' }}>
             <div>
@@ -99,7 +101,7 @@ const Login = () => {
 
                 <span>{error['password']}</span>
                 <Button type='submit' color='primary' variant="contained" style={btnstyle} fullWidth
-                    onClick={(e) => handleSubmit(e) } >Log in</Button>
+                    onClick={(e) => handleSubmit(e)}>Log in</Button>
 
                 <Typography > Don't have an account ?
                     <Link href="/register">

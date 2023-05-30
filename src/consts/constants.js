@@ -42,12 +42,12 @@ export const NotificationList = [
   }
 ]
 
-  export const data = [
+export const data = [
   {
     id: 1,
     img: 'https://static.vecteezy.com/system/resources/thumbnails/014/194/218/small/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg',
     userName: 'gaurav0909',
-    fullName:'Gaurav Patel'
+    fullName: 'Gaurav Patel'
   },
   {
     id: 2,

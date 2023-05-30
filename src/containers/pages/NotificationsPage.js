@@ -6,9 +6,7 @@ import { NotificationList } from '../../consts/constants';
 function NotificationsPage() {
 
   const Ipad = useMediaQuery('(min-width:900px)');
-  
   return (
-
     <Grid sx={{
       width: Ipad ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%', height: '700px',
       ml: Ipad ? `${DRAWER_WIDTH}px` : null,
@@ -32,7 +30,6 @@ function NotificationsPage() {
         </Card>
       ))
       }
-
     </Grid>
 
   )

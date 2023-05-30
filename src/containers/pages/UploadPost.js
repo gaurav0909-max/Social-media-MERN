@@ -3,35 +3,36 @@ import { Button, Card, CardContent, CardHeader, InputAdornment, TextField, useMe
 import { AspectRatio } from '@mui/joy';
 import { api } from '../../Api';
 import KeyboardAltIcon from '@mui/icons-material/KeyboardAlt';
+import { useDispatch } from 'react-redux';
+import { fetchData } from '../../redux/reducers/dataSlice';
 function UploadPost() {
   const drawerWidth = 240;
   const Ipad = useMediaQuery('(min-width:900px)');
   const [file, setFile] = useState('');
   const [caption, setCaption] = useState('');
-  // const [img, setImg] = useState('');
 
   const imageHandler = async (e) => {
-    // console.log(e.target.files);
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
-      // formdata.append('postImage',file)
     }
     await localStorage.setItem("postImage", URL.createObjectURL(e.target.files[0]))
-    
   }
 
+  const dispatch = useDispatch();
   const handleSubmit = async () => {
     const formdata = new FormData();
     formdata.append('postImage', file)
     formdata.append('caption', caption)
     console.log('formdata', file)
-    const Data = await api.createPost.post(formdata)
+    const Data = await api.myPost.post(formdata)
     console.log(Data)
+
+    dispatch(fetchData()).then((response) => {
+      console.log(response.payload.data.posts)
+    })
   }
 
-
   return (
-
 
     <Card sx={{
       width: Ipad ? `calc(100% - ${drawerWidth}px)` : '100%',
@@ -39,7 +40,7 @@ function UploadPost() {
       mt: 7,
       alignContent: 'center',
       border: "1px solid black",
-      backgroundColor: '#F8C8DC'
+      backgroundColor: '#ed689e'
     }}>
       <CardHeader title="Upload Post" />
       <CardContent>
@@ -73,10 +74,6 @@ function UploadPost() {
         <Button type='submit' variant='contained' onClick={handleSubmit} sx={{ m: 3 }} >Submit</Button>
       </CardContent>
     </Card>
-
-
-
-
   )
 }
 

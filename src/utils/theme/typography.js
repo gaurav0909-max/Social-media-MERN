@@ -31,18 +31,18 @@ export default function themeTypography(theme) {
             color: theme.heading,
             fontWeight: 700
         },
-       
+
         button: {
             textTransform: 'capitalize'
         },
-        
-       
-       
+
+
+
         cardContent: {
             fontWeight: 'bold',
             color: '#00adb5',
             fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`
         },
-    
+
     };
 }

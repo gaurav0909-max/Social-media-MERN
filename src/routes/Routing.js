@@ -13,17 +13,17 @@ import Login from '../containers/pages/login';
 import SignUp from '../containers/pages/signUp';
 import UploadPost from '../containers/pages/UploadPost';
 import Search from '../widgets/searchBar';
-
+import CustomizeProfile from '../containers/pages/CustomizeProfile'
 const drawerWidth = 240;
 
-const Routing = ({userName}) => {
+const Routing = ({ userName }) => {
     const Ipad = useMediaQuery('(min-width:900px)');
     return (
 
         <Routes>
             <Route path="*" element={<Error404 />} />
             <Route path="/" element={<Login />} />
-       
+
             <Route path="/Logout" element={<Login />} />
             <Route path="/register" element={<SignUp />} />
             <Route path="/home" element={
@@ -49,10 +49,10 @@ const Routing = ({userName}) => {
             <Route path="/category" element={
                 <>
                     <DrawerElement />
-                    <Category /> 
+                    <Category />
                 </>
             } />
-             <Route path="/upload" element={
+            <Route path="/upload" element={
                 <>
                     <DrawerElement />
                     <UploadPost />
@@ -71,14 +71,15 @@ const Routing = ({userName}) => {
                     <Search />
                 </>
                 
+
             } />
-             <Route path='/:userName' element={
+            <Route path='/:userName' element={
                 <>
                     <DrawerElement />
-                    <ProfilePage />
-                    <UserPost />
+                    < CustomizeProfile/>
+                    {/* <UserPost /> */}
                 </>
-                
+
             } />
         </Routes>
 

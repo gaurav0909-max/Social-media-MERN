@@ -87,7 +87,7 @@ function ResponsiveDrawer(props) {
         }}
       >
         <Toolbar sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Typography variant="h4" fontFamily='Roboto' noWrap component="div" sx={{ display: { xs: 'none', md: 'block' } }}>
+          <Typography variant="h4" noWrap component="div" sx={{ display: { xs: 'none', md: 'block' } }}>
             Instagram
           </Typography>
 
@@ -108,7 +108,6 @@ function ResponsiveDrawer(props) {
         sx={{ width: { md: DRAWER_WIDTH }, flexShrink: { md: 0 } }}
         aria-label="mailbox folders"
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}
           variant="temporary"
@@ -136,9 +135,7 @@ function ResponsiveDrawer(props) {
           {drawer}
 
         </Drawer>
-
       </Box>
-
     </Box>
   );
 }

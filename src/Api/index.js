@@ -16,7 +16,7 @@ export const api = {
             }),
     },
     profile: {
-        get: (params) =>
+        getByToken: (params) =>
             client({
                 url: 'users/profile',
                 data: params,
@@ -26,13 +26,23 @@ export const api = {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
             }),
+        getByUserName: (userName,params) =>
+            client({
+                url: `users/${userName}`,
+                data: params,
+                method: METHODS.GET,
+                // headers: {
+                //     'Content-type': 'application/json',
+                //     'Authorization': `Bearer ${localStorage.getItem('token')}`
+                // },
+            }),
         put: (params) =>
             client({
                 url: 'users/profile',
                 data: params,
                 method: METHODS.PUT,
                 headers: {
-                    'Content-type': 'application/json',
+                    'Content-type': 'multipart/form-data',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
             }),
@@ -47,12 +57,9 @@ export const api = {
             })
 
     },
-    createPost: {
-        post: (params) => 
-        {
-                // console.log('params', params)
-                
-               return client({
+    myPost: {
+        post: (params) => {
+            return client({
                 url: 'posts',
                 data: params,
                 method: METHODS.POST,
@@ -60,21 +67,18 @@ export const api = {
                     'Content-type': 'multipart/form-data',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
-            })},
-            get: (params) => 
-            {
-                    // console.log('params', params)
-                    
-                   return client({
-                    url: 'posts',
-                    data: params,
-                    method: METHODS.GET,
-                    // headers: {
-                    //     'Content-type': 'multipart/form-data',
-                    //     'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    // },
-                })}
-        
+            })
+        },
+        get: (params) =>
+            client({
+                url: 'posts',
+                method: METHODS.GET,
+                headers: {
+                    'Content-type': 'multipart/form-data',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
     },
 
 };

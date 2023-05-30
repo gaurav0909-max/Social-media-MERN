@@ -34,7 +34,6 @@ export default function Category() {
   const Ipad = useMediaQuery('( min-width:900px)');
   return (
     <div>
-
       <Grid container columns={12} sx={{
         width: Ipad ? `calc(100% - ${drawerWidth}px)` : '100%',
         ml: Ipad ? `${drawerWidth}px` : null,
@@ -71,7 +70,7 @@ export default function Category() {
           type === "" ?
             CategoryItems.map((data, index) => (
 
-              <Card item={true} sx={{
+              <Card sx={{
                 width: Ipad ? `calc(100% - ${drawerWidth}px)` : '100%',
                 maxWidth: 345,
               }} key={index} >
@@ -126,7 +125,6 @@ export default function Category() {
 
         }
       </Grid>
-
     </div>
   )
 }

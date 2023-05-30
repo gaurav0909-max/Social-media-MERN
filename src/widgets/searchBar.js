@@ -1,23 +1,40 @@
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { DRAWER_WIDTH } from "../consts/constants";
 import { Avatar, Card, IconButton, Typography, useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { api } from "../Api";
 import { ICONS } from "../Assets/Icons";
-import { BASE_URL } from "../Api/client";
 
 export default function Search() {
-    const [searchTerm, setsearchTerm] = useState("");
+    const [data, setData] = useState();
     const navigate = useNavigate();
+    // const dataContext = useContext();
     const Ipad = useMediaQuery('(min-width:900px)');
-
     const [results, setResults] = useState()
-
+    const [userName, setUserName] = useState()
     const handleChange = async (searchTerm) => {
         const Data = await api.search.get(searchTerm)
         setResults(Data.data.users)
+        console.log(Data.data.users)
+    }
+
+    const handleUserProfile = async (userName) => {
+        const myData = await api.profile.getByUserName(userName)
+        console.log('myData', myData.data.user)
+        setUserName(myData.data.user.userName)
+        setData(myData.data.user)
+    
+        navigate(`/${userName}`, {
+            state: {
+                userName: myData?.data?.user?.userName,
+                fullName: myData?.data?.user?.fullName,
+                profileImage: myData?.data?.user?.profileImage,
+                bio: myData?.data?.user?.bio,
+            }
+        },)
+
     }
 
     return (
@@ -36,7 +53,8 @@ export default function Search() {
                     id="search-bar"
                     className="text"
                     onChange={(e) => {
-                        setsearchTerm(e.target.value);
+                        // setsearchTerm(e.target.value);
+                        handleChange(`searchTerm=${e.target.value}`)
                     }}
                     label="Enter a userName"
                     variant="outlined"
@@ -44,7 +62,7 @@ export default function Search() {
                     size="medium"
                 />
 
-                <IconButton onClick={() => handleChange(`searchTerm=${searchTerm}`)}>
+                <IconButton >
                     <ICONS.Search />
                 </IconButton>
 
@@ -68,10 +86,10 @@ export default function Search() {
                             gap: 10
                         }}
                         key={index}
-                        onClick={() => navigate(`/${data.userName}`)}
+                        onClick={() => handleUserProfile(`${data.userName}`)}
                     >
                         <Avatar
-                            src={BASE_URL + data.profileImage}
+                            src={data.profileImage}
                             sx={{ border: '2px solid', height: '70px', width: '70px' }}
                         />
                         <div>
