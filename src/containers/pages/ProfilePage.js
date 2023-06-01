@@ -12,14 +12,15 @@ import EditIcon from '@mui/icons-material/Edit';
 import { fetchProfileById } from '../../redux/reducers/userProfileSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../../Api';
+import { useLocation } from 'react-router-dom';
 
 function ProfilePage() {
 
     const dispatch = useDispatch();
 
     const {profile} = useSelector((state) => state.userProfile);
-
     const [data,updatedata]=useState('');
+    const [userName,setuserName]=useState('');
     const[profileImage,setProfileImage]=useState('');
     const [loading,setLoading]=useState('');
     const imageHandler = (e) => {
@@ -51,14 +52,18 @@ function ProfilePage() {
         // console.log(response.payload.data.userName)
         updatedata(response.payload.data)
         setProfileImage(response.payload.data.profileImage)
+        setuserName(response.payload.data.userName)
         setLoading(false);
       })
     },[dispatch])
+    const [followers,setfollowers]=useState();
+    const [followings,setfollowings]=useState();
     
-
+    const Data = useSelector((state) => state.data.data);
+    console.log(Data.data.totalPosts)
     const Ipad = useMediaQuery('(min-width:900px)');
     const windowWidth = useRef(window.innerWidth);
-
+    const [count,setCount]=useState(0)
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -69,6 +74,17 @@ function ProfilePage() {
       setOpen(false);
     };
 //  console.log(file)
+const handleAPI=async()=>{
+    const followers= await api.followers.get(userName)
+    setfollowers(followers.data.data.TotalFollowers)
+
+    const followings = await api.followings.get(userName)
+    setfollowings(followings.data.data.TotalFollowing)
+}
+useEffect(()=>{
+    handleAPI()
+},[userName])
+
     return (
         <div >
             
@@ -103,16 +119,16 @@ function ProfilePage() {
                     </Typography>
                         <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
                            <div>
-                                <Typography>10</Typography>
+                                <Typography>{Data.data.totalPosts}</Typography>
                                 <Button variant='contained' color='error'>Posts</Button>
                            </div>
                             <div>
-                                <Typography>100</Typography>
+                                <Typography>{followers}</Typography>
                                 <Button variant='contained' color='error'>Follwers</Button>
                             </div>
                            <div>
-                                <Typography>110</Typography>
-                                <Button variant='contained' color='error'>Following</Button>  
+                                <Typography>{followings}</Typography>
+                                <Button variant='contained' color='error' >Following</Button>  
                            </div>
                         </div>
                        {/* <ButtonGroup variant="outlined" sx={{ gap: "50px" , m:2}}>

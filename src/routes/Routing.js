@@ -14,6 +14,7 @@ import SignUp from '../containers/pages/signUp';
 import UploadPost from '../containers/pages/UploadPost';
 import Search from '../widgets/searchBar';
 import CustomizeProfile from '../containers/pages/CustomizeProfile'
+import OthersPost from '../widgets/OthersPost';
 
 const drawerWidth = 240;
 
@@ -77,10 +78,12 @@ const Routing = ({ userName }) => {
                 <>
                     <DrawerElement />
                     < CustomizeProfile />
+                    <OthersPost/>
                     {/* <UserPost /> */}
                 </>
 
             } />
+            
         </Routes>
 
     )

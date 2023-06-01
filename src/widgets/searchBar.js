@@ -1,5 +1,5 @@
 
-import { useContext, useEffect, useState } from "react";
+import {  useState } from "react";
 import TextField from "@mui/material/TextField";
 import { DRAWER_WIDTH } from "../consts/constants";
 import { Avatar, Card, IconButton, Typography, useMediaQuery } from "@mui/material";
@@ -8,12 +8,12 @@ import { api } from "../Api";
 import { ICONS } from "../Assets/Icons";
 
 export default function Search() {
-    const [data, setData] = useState();
+   
     const navigate = useNavigate();
     // const dataContext = useContext();
     const Ipad = useMediaQuery('(min-width:900px)');
     const [results, setResults] = useState()
-    const [userName, setUserName] = useState()
+   
     const handleChange = async (searchTerm) => {
         const Data = await api.search.get(searchTerm)
         setResults(Data.data.users)
@@ -23,15 +23,14 @@ export default function Search() {
     const handleUserProfile = async (userName) => {
         const myData = await api.profile.getByUserName(userName)
         console.log('myData', myData.data.user)
-        setUserName(myData.data.user.userName)
-        setData(myData.data.user)
-    
+        
         navigate(`/${userName}`, {
             state: {
                 userName: myData?.data?.user?.userName,
                 fullName: myData?.data?.user?.fullName,
                 profileImage: myData?.data?.user?.profileImage,
                 bio: myData?.data?.user?.bio,
+                id:myData.data.user._id
             }
         },)
 

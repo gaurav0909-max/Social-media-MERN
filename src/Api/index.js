@@ -26,7 +26,7 @@ export const api = {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
             }),
-        getByUserName: (userName,params) =>
+        getByUserName: (userName, params) =>
             client({
                 url: `users/${userName}`,
                 data: params,
@@ -54,6 +54,10 @@ export const api = {
                 url: `users/search?${searchTerm}`,
                 data: params,
                 method: METHODS.GET,
+                headers: {
+                    'Content-type': 'multipart/form-data',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
             })
 
     },
@@ -77,8 +81,65 @@ export const api = {
                     'Content-type': 'multipart/form-data',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
+            }),
+        getByName: (id, params) =>
+            client({
+                url: `posts/${id}`,
+                method: METHODS.GET,
+                headers: {
+                    'Content-type': 'multipart/form-data',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
             })
-
     },
+
+    followers: {
+        get: (userName, params) =>
+            client({
+                url: `users/followers/${userName}`,
+                method: METHODS.GET,
+                headers: {
+                    'Content-type': 'multipart/form-data',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+    },
+
+    followings: {
+        get: (userName, params) =>
+            client({
+                url: `users/followings/${userName}`,
+                method: METHODS.GET,
+                headers: {
+                    'Content-type': 'multipart/form-data',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+    },
+
+    follow: {
+        post: (userName, params) =>
+            client({
+                url: `users/follow/${userName}`,
+                method: METHODS.POST,
+                headers: {
+                    'Content-type': 'multipart/form-data',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+    },
+
+    unfollow: {
+        post: (userName, params) =>
+            client({
+                url: `users/unfollow/${userName}`,
+                method: METHODS.POST,
+                headers: {
+                    'Content-type': 'multipart/form-data',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+    }
+
 
 };

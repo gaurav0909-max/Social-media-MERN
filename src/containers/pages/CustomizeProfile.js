@@ -1,6 +1,6 @@
 import { Card } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -8,18 +8,42 @@ import { useRef } from 'react';
 import { DRAWER_WIDTH } from '../../consts/constants';
 import { Avatar } from '@mui/joy';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { api } from '../../Api';
 
 function CustomizeProfile() {
-
-
+    const [count,setCount]=useState(0)
+    const [followers,setfollowers]=useState();
+    const [followings,setfollowings]=useState();
+    const data = useSelector((state) => state.data.data);
     const Ipad = useMediaQuery('(min-width:900px)');
     const windowWidth = useRef(window.innerWidth);
     const location = useLocation();
     const { userName, bio, profileImage, fullName } = location.state;
-    console.log("dataprofile", userName, bio, profileImage, fullName);
-    // const [data, setData] = useState();
 
-    // console.log('data', data)
+    const followAPI = async()=>{
+        const follow= await api.follow.post(userName)
+        console.log(follow.data)
+        handleAPI()
+    }
+    
+    const unfollowAPI = async()=>{
+        const unfollow= await api.unfollow.post(userName)
+        console.log(unfollow.data)
+        handleAPI()
+    }
+
+    const handleAPI=async()=>{
+        const followers= await api.followers.get(userName)
+        setfollowers(followers.data.data.TotalFollowers)
+
+        const followings = await api.followings.get(userName)
+        setfollowings(followings.data.data.TotalFollowing)
+    }
+    useEffect(()=>{
+        handleAPI()
+    },[userName])
+
     return (
         <div >
             <Card elevation={8} circle="true" sx={{
@@ -53,21 +77,21 @@ function CustomizeProfile() {
                     </Typography>
                     <div style={{ display: 'flex', justifyContent: 'space-around', gap: '20px' }}>
                         <div>
-                            <Typography>10</Typography>
+                            <Typography>{data.data.totalPosts}</Typography>
                             <Button variant='text' color='error'>Posts</Button>
                         </div>
                         <div>
-                            <Typography>100</Typography>
+                            <Typography>{followers}</Typography>
                             <Button variant='text' color='error'>Follwers</Button>
                         </div>
                         <div>
-                            <Typography>110</Typography>
+                            <Typography>{followings}</Typography>
                             <Button variant='text' color='error'>Following</Button>
                         </div>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
-                        <Button variant='contained' color='error'>Follow</Button>
-                        <Button variant='contained' color='error'>Unfollow</Button>
+                        <Button variant='contained' color='error'onClick={()=>{followAPI()}}>Follow</Button>
+                        <Button variant='contained' color='error'onClick={()=>{unfollowAPI()}}>Unfollow</Button>
                     </div>
                     {/* <ButtonGroup variant="outlined" sx={{ gap: "50px" , m:2}}>
                           <Button>Posts</Button>
