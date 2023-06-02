@@ -16,7 +16,7 @@ export default function OthersPost() {
 
   const handleAPI = async()=>{
     const Posts= await api.myPost.getByName(id)
-    setPostdata(Posts.data)
+    setPostdata(Posts.data.post)
   }
 
   useEffect(

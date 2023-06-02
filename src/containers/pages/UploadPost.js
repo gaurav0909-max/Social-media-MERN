@@ -3,8 +3,8 @@ import { Button, Card, CardContent, CardHeader, InputAdornment, TextField, useMe
 import { AspectRatio } from '@mui/joy';
 import { api } from '../../Api';
 import KeyboardAltIcon from '@mui/icons-material/KeyboardAlt';
-import { useDispatch } from 'react-redux';
-import { fetchData } from '../../redux/reducers/dataSlice';
+
+
 function UploadPost() {
   const drawerWidth = 240;
   const Ipad = useMediaQuery('(min-width:900px)');
@@ -18,7 +18,7 @@ function UploadPost() {
     await localStorage.setItem("postImage", URL.createObjectURL(e.target.files[0]))
   }
 
-  const dispatch = useDispatch();
+
   const handleSubmit = async () => {
     const formdata = new FormData();
     formdata.append('postImage', file)
@@ -27,9 +27,7 @@ function UploadPost() {
     const Data = await api.myPost.post(formdata)
     console.log(Data)
 
-    dispatch(fetchData()).then((response) => {
-      console.log(response.payload.data.posts)
-    })
+   
   }
 
   return (

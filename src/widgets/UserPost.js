@@ -4,7 +4,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import { Typography, useMediaQuery } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchData } from '../redux/reducers/postSlice';
+import { fetchData } from '../redux/reducers/dataSlice';
 import { useState } from 'react';
 export default function UserPost() {
   const dispatch =useDispatch()
@@ -13,7 +13,7 @@ export default function UserPost() {
   const Ipad = useMediaQuery('(min-width:900px)');
 
   useEffect(() => {dispatch(fetchData()).then((response) => {
-    console.log(response.payload.data.posts)
+    console.log("Here----------->",response.payload.data.posts)
     setmyPost(response.payload.data.posts)
   })
 },[dispatch])

@@ -12,7 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { fetchProfileById } from '../../redux/reducers/userProfileSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../../Api';
-import { useLocation } from 'react-router-dom';
+
 
 function ProfilePage() {
 
@@ -58,12 +58,9 @@ function ProfilePage() {
     },[dispatch])
     const [followers,setfollowers]=useState();
     const [followings,setfollowings]=useState();
-    
-    const Data = useSelector((state) => state.data.data);
-    console.log(Data.data.totalPosts)
+    const [countPost,setcountPost]=useState();
     const Ipad = useMediaQuery('(min-width:900px)');
     const windowWidth = useRef(window.innerWidth);
-    const [count,setCount]=useState(0)
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -74,16 +71,20 @@ function ProfilePage() {
       setOpen(false);
     };
 //  console.log(file)
-const handleAPI=async()=>{
-    const followers= await api.followers.get(userName)
-    setfollowers(followers.data.data.TotalFollowers)
+    const handleAPI=async()=>{
+        const PostCount= await api.myPost.get()
+        setcountPost(PostCount.data.totalPosts)
 
-    const followings = await api.followings.get(userName)
-    setfollowings(followings.data.data.TotalFollowing)
-}
-useEffect(()=>{
-    handleAPI()
-},[userName])
+        const followers= await api.followers.get(userName)
+        setfollowers(followers.data.data.TotalFollowers)
+
+        const followings = await api.followings.get(userName)
+        setfollowings(followings.data.data.TotalFollowing)
+
+    }
+    useEffect(()=>{
+        handleAPI()
+    },[userName])
 
     return (
         <div >
@@ -119,7 +120,7 @@ useEffect(()=>{
                     </Typography>
                         <div style={{display:'flex', justifyContent:'space-around', gap:'20px'}}>
                            <div>
-                                <Typography>{Data.data.totalPosts}</Typography>
+                                <Typography>{countPost}</Typography>
                                 <Button variant='contained' color='error'>Posts</Button>
                            </div>
                             <div>
@@ -213,134 +214,4 @@ useEffect(()=>{
 }
 
 export default ProfilePage
-// import React, { useState } from 'react';
-// import { TextField, Button, useMediaQuery } from '@mui/material'
-// import { DRAWER_WIDTH } from '../../consts/constants';
-// import Card from '@mui/material/Card';
-// import CardMedia from '@mui/material/CardMedia';
-// import { useRef } from 'react';
-// const ProfileForm = () => {
-//   const [data,setData]= useState({
-//     username: '',
-//     phone: '',
-//     bio:'',
-//     website: '',
-//   })
-//   const [usernameError,setUsernameError] = useState(false)
-//   const [phoneError,setPhoneError] = useState(false)
-//   const [websiteError,setWebsiteError] = useState(false)
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setData({ ...data, [name]: value });
-// };
-// console.log(data);
-// const handleSubmit = (event) => {
-//     event.preventDefault();
-//     let errors = {};
-//     let isValid = true;
-  
-//     // Check if the username field is empty
-//     if (!data.username.trim()) {
-//       errors.username = 'Username is required';
-//       isValid = false;
-//     }
-  
-//     // Check if the phone field is empty
-//     if (!data.phone.trim()) {
-//       errors.phone = 'Phone is required';
-//       isValid = false;
-//     }
-  
-//     // Check if the website field is empty
-//     if (!data.website.trim()) {
-//       errors.website = 'Website is required';
-//       isValid = false;
-//     }
-  
-  
-//     // Check if the phone is valid
-//     if (data.phone.trim() && !/^\+?[1-9]\d{1,14}$/.test(data.phone)) {
-//       errors.phone = 'Invalid phone number';
-//       isValid = false;
-//     }
-  
-//     // Check if the website is valid
-//     if (data.website.trim() && !/^https?:\/\/.+/.test(data.website)) {
-//       errors.website = 'Invalid website URL';
-//       isValid = false;
-//     }
-  
-//     if (isValid) {
-//       // Handle form submission here
-//       console.log('Form submitted successfully!');
-//     } else {
-//       // Display error messages
-//       setUsernameError(errors.username || '');
-//       setPhoneError(errors.phone || '');
-//       setWebsiteError(errors.website || '');
-//     }
-//   };
-  
-//   const Ipad = useMediaQuery('(min-width:900px)');
-//       const windowWidth = useRef(window.innerWidth);
-//   return (
-//     <Card sx={{
-//         display: 'flex', justifyContent: 'center', md: { justifyContent: 'center' },
-//                         width: Ipad ? `calc(100% - ${DRAWER_WIDTH}px)` : windowWidth.innerWidth,
-//                         ml: Ipad ? `${DRAWER_WIDTH}px` : null,
-//                         mt: '10px'
-//     }}>
-//         <CardMedia
-//                     component="img"
-//                     image="https://img.freepik.com/premium-vector/young-smiling-man-adam-avatar-3d-vector-people-character-illustration-cartoon-minimal-style_365941-687.jpg"
-//                     alt="CardMedia Image Example"
-//                     sx={
-//                         { width: '500px', md: { width: '100px' } }
-
-//                     }
-//                     title="CardMedia Image Example"
-//                 />
-//     <form 
-//      onSubmit={handleSubmit}>
-//       <TextField
-//         name="Username"
-//         name="username"
-//         variant="outlined"
-//         onChange={(e)=>handleChange(e)}
-//         fullWidth
-//         margin="normal"
-//       />
-//       <TextField
-//         name="Bio"
-//         name="bio"
-//         variant="outlined"
-//         onChange={(e)=>handleChange(e)}
-//         fullWidth
-//         margin="normal"
-//         multiline
-//         rows={3}
-//       />
-//       <TextField
-//         name="Phone"
-//         name="phone"
-//         variant="outlined"
-//         onChange={(e)=>handleChange(e)}
-//         fullWidth
-//         margin="normal"
-//       />
-//       <TextField
-//         name="Website"
-//         name='website'
-//         variant="outlined"
-//         onChange={(e)=>handleChange(e)}
-//         fullWidth
-//         margin="normal"
-//       />
-//       <Button variant="contained" color="primary" type="submit">Save Changes</Button>
-//     </form>
-//     </Card>
-//   );
-// };
-
-// export default ProfileForm;
 
