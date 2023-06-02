@@ -13,7 +13,7 @@ export default function Search() {
     // const dataContext = useContext();
     const Ipad = useMediaQuery('(min-width:900px)');
     const [results, setResults] = useState()
-   
+   const [error, setError]=useState('')
     const handleChange = async (searchTerm) => {
         const Data = await api.search.get(searchTerm)
         setResults(Data.data.users)
@@ -21,22 +21,28 @@ export default function Search() {
     }
 
     const handleUserProfile = async (userName) => {
-        const myData = await api.profile.getByUserName(userName)
-        console.log('myData', myData.data.user)
-        
-        navigate(`/${userName}`, {
-            state: {
-                userName: myData?.data?.user?.userName,
-                fullName: myData?.data?.user?.fullName,
-                profileImage: myData?.data?.user?.profileImage,
-                bio: myData?.data?.user?.bio,
-                id:myData.data.user._id
-            }
-        },)
-
+        try{
+            const myData = await api.profile.getByUserName(userName)
+            console.log('myData', myData.data.user)
+            
+            navigate(`/${userName}`, {
+                state: {
+                    userName: myData?.data?.user?.userName,
+                    fullName: myData?.data?.user?.fullName,
+                    profileImage: myData?.data?.user?.profileImage,
+                    bio: myData?.data?.user?.bio,
+                    id:myData.data.user._id
+                }
+            },)
+    
+        }catch(error){
+            setError(error)
+        }
+      
     }
 
     return (
+        
         <div
             style={{
                 display: "flex",

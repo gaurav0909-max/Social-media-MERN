@@ -72,12 +72,14 @@ request.interceptors.response.use(
                 originalRequest,
                 status,
                 message: 'The requested content does not exist, please try again later'
+               
             };
             throw error;
         }
 
         const response = err.response?.data;
         const message = response ? response : err.message;
+        console.log(message)
 
         const error = { originalRequest, message, status };
         throw error;
