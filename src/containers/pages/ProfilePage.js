@@ -23,7 +23,7 @@ function ProfilePage() {
     const [data, updatedata] = useState('');
     const [userName, setuserName] = useState('');
     const [profileImage, setProfileImage] = useState('');
-    const [loading, setLoading] = useState('');
+    const [loading, setLoading] = useState(true);
     const imageHandler = (e) => {
         if (e.target.files[0]) {
             setProfileImage(e.target.files[0]);
@@ -65,7 +65,7 @@ function ProfilePage() {
     const [showfollowers, setshowfollowers] = useState([]);
     const [showfollowings, setshowfollowings] = useState([])
     const [start, setStart] = useState(false);
-    const [initial,setInitial]=useState(false);
+    const [initial, setInitial] = useState(false);
     const Ipad = useMediaQuery('(min-width:900px)');
     const windowWidth = useRef(window.innerWidth);
     const [open, setOpen] = React.useState(false);
@@ -96,9 +96,7 @@ function ProfilePage() {
     };
     //  console.log(file)
     const handleAPI = async () => {
-        const PostCount = await api.myPost.get()
-        setcountPost(PostCount.data.totalPosts)
-        setLoading(false);
+
 
         const followers = await api.followers.get(userName)
         setshowfollowers(followers.data.data.followers)
@@ -108,6 +106,10 @@ function ProfilePage() {
         const followings = await api.followings.get(userName)
         setshowfollowings(followings.data.data.following)
         setfollowings(followings.data.data.TotalFollowing)
+
+        const PostCount = await api.myPost.get()
+        setcountPost(PostCount.data.totalPosts)
+        setLoading(false);
 
     }
     useEffect(() => {
@@ -149,22 +151,34 @@ function ProfilePage() {
                     <div style={{ display: 'flex', justifyContent: 'space-around', gap: '20px' }}>
                         <div>
                             {
-                                loading ?  <Skeleton variant="text" width={50} height={20} /> :
-                                <Typography >{countPost}
-                          
-                                </Typography>
+                                loading ? <Skeleton variant="text" width={50} height={20} /> :
+                                    <Typography >{countPost}
+
+                                    </Typography>
                             }
-                     
-                            <Button variant='contained' sx={{backgroundColor:'#FF0080'}} >Posts</Button>
-                            
+
+                            <Button variant='contained' style={{ backgroundColor: '#ff0080' }} >Posts</Button>
+
                         </div>
                         <div>
-                            <Typography>{followers}</Typography>
-                            <Button variant='contained' color='error' onClick={handleClickStart}>Follwers</Button>
+                            {
+                                loading ? <Skeleton variant="text" width={20} height={20} /> :
+                                    <Typography >
+                                        {followers}
+                                    </Typography>
+                            }
+                            <Button variant='contained' style={{ backgroundColor: '#ff0080' }}
+                                onClick={handleClickStart}>Followers</Button>
                         </div>
                         <div>
-                            <Typography>{followings}</Typography>
-                            <Button variant='contained' color='error' onClick={handleClickInitial} >Following</Button>
+                            {
+                                loading ? <Skeleton variant="text" width={20} height={20} /> :
+                                    <Typography >
+                                        {followings}
+                                    </Typography>
+                            }
+                            <Button variant='contained' style={{ backgroundColor: '#ff0080' }}
+                                onClick={handleClickInitial} >Following</Button>
                         </div>
                     </div>
                     {/* <ButtonGroup variant="outlined" sx={{ gap: "50px" , m:2}}>
@@ -184,7 +198,7 @@ function ProfilePage() {
                       </Typography> */}
                 </CardContent>
                 <CardActions>
-                    <IconButton sx={{ marginBottom: '40px' }} color='error' onClick={handleClickOpen}>
+                    <IconButton sx={{ marginBottom: '40px' }} style={{ backgroundColor: '#ff0080', color: 'white' }} onClick={handleClickOpen}>
                         <EditIcon />
                     </IconButton>
                     <Dialog open={open} onClose={handleClose} >
@@ -237,8 +251,8 @@ function ProfilePage() {
 
                         </DialogContent>
                         <DialogActions>
-                            <Button color='error' onClick={handleClose}>Cancel</Button>
-                            < Button color='error' onClick={(e) => { handleSubmit(e); handleClose() }}>Update</Button>
+                            <Button style={{ backgroundColor: '#ff0080', color: 'white' }} onClick={handleClose}>Cancel</Button>
+                            < Button style={{ backgroundColor: '#ff0080', color: 'white' }} onClick={(e) => { handleSubmit(e); handleClose() }}>Update</Button>
                         </DialogActions>
                     </Dialog>
 
@@ -249,8 +263,8 @@ function ProfilePage() {
                             justifyContent: "space-between",
                         }}>
                             <DialogTitle color='#FF0080'>Followers</DialogTitle>
-                            <Button onClick={handleOff} color='error'>
-                                <ICONS.Cross />
+                            <Button onClick={handleOff} style={{ backgroundColor: '#ff0080' }}>
+                                <ICONS.Cross sx={{ color: 'white' }} />
                             </Button>
                         </div>
                         <Divider />
@@ -279,8 +293,8 @@ function ProfilePage() {
                             justifyContent: "space-between",
                         }}>
                             <DialogTitle color='#FF0080'>Followings</DialogTitle>
-                            <Button onClick={handleEnd} color='error'>
-                                <ICONS.Cross />
+                            <Button onClick={handleEnd} style={{ backgroundColor: '#ff0080' }}>
+                                <ICONS.Cross sx={{ color: 'white' }} />
                             </Button>
                         </div>
                         <Divider />

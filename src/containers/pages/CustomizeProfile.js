@@ -19,12 +19,12 @@ function CustomizeProfile() {
     const [showfollowers, setshowfollowers] = useState([]);
     const [showfollowings, setshowfollowings] = useState([])
     const [start, setStart] = useState(false);
-    const [loading,setLoading]=useState(true)
-    const [initial,setInitial]=useState(false);
+    const [loading, setLoading] = useState(true)
+    const [initial, setInitial] = useState(false);
     const Ipad = useMediaQuery('(min-width:900px)');
     const windowWidth = useRef(window.innerWidth);
     const location = useLocation();
-    const { userName, bio, profileImage, fullName, id} = location.state;
+    const { userName, bio, profileImage, fullName, id } = location.state;
 
     const followAPI = async () => {
         const follow = await api.follow.post(userName)
@@ -104,35 +104,42 @@ function CustomizeProfile() {
                     </Typography>
                     <div style={{ display: 'flex', justifyContent: 'space-around', gap: '20px' }}>
                         <div>
-                        {
-                                loading ?  <Skeleton variant="text" width={20} height={20} /> :
-                                <Typography >{count}
-                          
-                                </Typography>
+                            {
+                                loading ? <Skeleton variant="text" width={20} height={20} /> :
+                                    <Typography >
+                                        {count}
+                                    </Typography>
                             }
-                            <Button variant='text' color='error'>Posts</Button>
+                            <Button variant='text' style={{
+                                 color:'#ff0080'
+                            }} >Posts</Button>
                         </div>
                         <div>
-                        {
-                                loading ?  <Skeleton variant="text" width={20} height={20} /> :
-                                <Typography >{followers}
-                          
-                                </Typography>
+                            {
+                                loading ? <Skeleton variant="text" width={20} height={20} /> :
+                                    <Typography >
+                                        {followers}
+                                    </Typography>
                             }
-                            <Button variant='text' color='error'onClick={handleClickStart}>Follwers</Button>
+                            <Button variant='text'style={{
+                                 color:'#ff0080'
+                            }} onClick={handleClickStart}>Followers</Button>
                         </div>
                         <div>
-                        {
-                                loading ?  <Skeleton  variant="text" width={20} height={20} /> :
-                                <Typography >{followings}
-                          
-                                </Typography>
-                            }                            <Button variant='text' color='error' onClick={handleClickInitial}>Following</Button>
+                            {
+                                loading ? <Skeleton variant="text" width={20} height={20} /> :
+                                    <Typography >
+                                        {followings}
+                                    </Typography>
+                            }
+                            <Button variant='text' style={{
+                                 color:'#ff0080'
+                            }} onClick={handleClickInitial}>Following</Button>
                         </div>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
-                        <Button variant='contained' color='error' onClick={() => { followAPI() }}>Follow</Button>
-                        <Button variant='contained' color='error' onClick={() => { unfollowAPI() }}>Unfollow</Button>
+                        <Button variant='contained' style={{ backgroundColor: '#ff0080' }} onClick={() => { followAPI() }}>Follow</Button>
+                        <Button variant='contained' style={{ backgroundColor: '#ff0080' }} onClick={() => { unfollowAPI() }}>Unfollow</Button>
                     </div>
                     {/* <ButtonGroup variant="outlined" sx={{ gap: "20px" , m:2}}>
                           <Button>Posts</Button>
@@ -152,64 +159,64 @@ function CustomizeProfile() {
                 </CardContent>
 
                 <Dialog open={start} onClose={handleOff} circle={true} PaperProps={{ style: { width: dialogWidth } }} >
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: "space-between",
-                        }}>
-                            <DialogTitle color='#FF0080'>Followers</DialogTitle>
-                            <Button onClick={handleOff} color='error'>
-                                <ICONS.Cross />
-                            </Button>
-                        </div>
-                        <Divider />
-                        <DialogContent>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: "space-between",
+                    }}>
+                        <DialogTitle color='#FF0080'>Followers</DialogTitle>
+                        <Button onClick={handleOff} style={{ backgroundColor: '#ff0080' }}>
+                            <ICONS.Cross />
+                        </Button>
+                    </div>
+                    <Divider />
+                    <DialogContent>
 
-                            {showfollowers.map((item, index) => (
-                                <Card  sx={{ display: 'flex', flexDirection: 'row', gap: 7, }} key={index}>
-                                    <Avatar
-                                        src={item.profileImage}
-                                        sx={{ height: '70px', width: '70px' }}
-                                    />
-                                    <Typography variant='h5' textColor='#FF0080'>
-                                        {item.userName}
-                                    </Typography>
-                                </Card>
+                        {showfollowers.map((item, index) => (
+                            <Card sx={{ display: 'flex', flexDirection: 'row', gap: 7, }} key={index}>
+                                <Avatar
+                                    src={item.profileImage}
+                                    sx={{ height: '70px', width: '70px' }}
+                                />
+                                <Typography variant='h5' textColor='#FF0080'>
+                                    {item.userName}
+                                </Typography>
+                            </Card>
 
-                            ))}
-                        </DialogContent>
+                        ))}
+                    </DialogContent>
 
-                    </Dialog>
+                </Dialog>
 
-                    <Dialog open={initial} onClose={handleEnd} circle={true} PaperProps={{ style: { width: dialogWidth } }} >
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: "space-between",
-                        }}>
-                            <DialogTitle color='#FF0080'>Followings</DialogTitle>
-                            <Button onClick={handleEnd} color='error'>
-                                <ICONS.Cross />
-                            </Button>
-                        </div>
-                        <Divider />
-                        <DialogContent>
+                <Dialog open={initial} onClose={handleEnd} circle={true} PaperProps={{ style: { width: dialogWidth } }} >
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: "space-between",
+                    }}>
+                        <DialogTitle color='#FF0080'>Followings</DialogTitle>
+                        <Button onClick={handleEnd} style={{ backgroundColor: '#ff0080' }}>
+                            <ICONS.Cross />
+                        </Button>
+                    </div>
+                    <Divider />
+                    <DialogContent>
 
-                            {showfollowings.map((item, index) => (
-                                <Card fullwidth sx={{ display: 'flex', flexDirection: 'row', gap: 7 }} key={index}>
-                                    <Avatar
-                                        src={item.profileImage}
-                                        sx={{ height: '70px', width: '70px' }}
-                                    />
-                                    <Typography variant='h5' textColor='#FF0080'>
-                                        {item.userName}
-                                    </Typography>
-                                </Card>
+                        {showfollowings.map((item, index) => (
+                            <Card fullwidth sx={{ display: 'flex', flexDirection: 'row', gap: 7 }} key={index}>
+                                <Avatar
+                                    src={item.profileImage}
+                                    sx={{ height: '70px', width: '70px' }}
+                                />
+                                <Typography variant='h5' textColor='#FF0080'>
+                                    {item.userName}
+                                </Typography>
+                            </Card>
 
-                            ))}
-                        </DialogContent>
+                        ))}
+                    </DialogContent>
 
-                    </Dialog>
+                </Dialog>
             </Card>
         </div>
     )

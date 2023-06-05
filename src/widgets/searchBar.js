@@ -1,5 +1,5 @@
 
-import {  useState } from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { DRAWER_WIDTH } from "../consts/constants";
 import { Avatar, Card, IconButton, Typography, useMediaQuery } from "@mui/material";
@@ -8,12 +8,12 @@ import { api } from "../Api";
 import { ICONS } from "../Assets/Icons";
 
 export default function Search() {
-   
+
     const navigate = useNavigate();
     // const dataContext = useContext();
     const Ipad = useMediaQuery('(min-width:900px)');
     const [results, setResults] = useState()
-   const [error, setError]=useState('')
+
     const handleChange = async (searchTerm) => {
         const Data = await api.search.get(searchTerm)
         setResults(Data.data.users)
@@ -21,7 +21,7 @@ export default function Search() {
     }
 
     const handleUserProfile = async (userName) => {
-        try{
+        try {
             const myData = await api.profile.getByUserName(userName)
             console.log('myData', myData.data.user)
             
@@ -31,18 +31,21 @@ export default function Search() {
                     fullName: myData?.data?.user?.fullName,
                     profileImage: myData?.data?.user?.profileImage,
                     bio: myData?.data?.user?.bio,
-                    id:myData.data.user._id
+                    id: myData.data.user._id
                 }
             },)
-    
-        }catch(error){
-            setError(error)
+
+            
+        }catch{
+
         }
-      
+           
+    
+        
     }
 
     return (
-        
+
         <div
             style={{
                 display: "flex",

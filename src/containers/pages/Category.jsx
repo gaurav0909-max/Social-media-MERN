@@ -40,22 +40,34 @@ export default function Category() {
         mt: '20px',
       }}>
         <Grid item={true} md={6} lg={3} >
-          <Button variant="outlined" color='error' value="Animal" onClick={(e) => handleFruit()}>
+          <Button variant="outlined"  style={{
+            color:'#ff0080',
+            borderColor:'#ff0080'
+          }} value="Animal" onClick={(e) => handleFruit()}>
             Fruit
           </Button>
         </Grid>
         <Grid item={true} md={6} lg={3} value="Animal" onClick={(e) => handleAnimal()}>
-          <Button variant="outlined" color='error'>
+          <Button variant="outlined" style={{
+            color:'#ff0080',
+            borderColor:'#ff0080'
+          }} >
             Animal
           </Button>
         </Grid>
         <Grid item={true} md={6} lg={3} value="Animal" onClick={(e) => handleNature()}>
-          <Button variant="outlined" color='error'>
+          <Button variant="outlined"style={{
+            color:'#ff0080',
+            borderColor:'#ff0080'
+          }} >
             Nature
           </Button>
         </Grid>
         <Grid item={true} md={6} lg={3} value="Animal" onClick={(e) => handleShop()}>
-          <Button variant="outlined" color='error'>
+          <Button variant="outlined" style={{
+            color:'#ff0080',
+            borderColor:'#ff0080'
+          }} >
             Shop
           </Button>
         </Grid>
