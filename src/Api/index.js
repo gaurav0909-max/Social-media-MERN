@@ -31,10 +31,10 @@ export const api = {
                 url: `users/${userName}`,
                 data: params,
                 method: METHODS.GET,
-                // headers: {
-                //     'Content-type': 'application/json',
-                //     'Authorization': `Bearer ${localStorage.getItem('token')}`
-                // },
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
             }),
         put: (params) =>
             client({
@@ -49,9 +49,9 @@ export const api = {
 
     },
     search: {
-        get: (searchTerm, params) =>
+        get: (name, params) =>
             client({
-                url: `users/search?${searchTerm}`,
+                url: `users/search?${name}`,
                 data: params,
                 method: METHODS.GET,
                 headers: {
@@ -84,7 +84,7 @@ export const api = {
             }),
         getByName: (id, params) =>
             client({
-                url: `posts/${id}`,
+                url: `posts/user/${id}`,
                 method: METHODS.GET,
                 headers: {
                     'Content-type': 'multipart/form-data',

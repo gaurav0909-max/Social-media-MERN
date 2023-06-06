@@ -52,9 +52,9 @@ function CustomizeProfile() {
         setCount(PostCount.data.totalPosts)
         setLoading(false)
     }
-    useEffect(() => {
-        handleAPI()
-    }, [userName])
+    // useEffect(() => {
+    //     handleAPI()
+    // }, [userName])
     const handleClickStart = () => {
         setStart(true);
     };
@@ -166,7 +166,7 @@ function CustomizeProfile() {
                     }}>
                         <DialogTitle color='#FF0080'>Followers</DialogTitle>
                         <Button onClick={handleOff} style={{ backgroundColor: '#ff0080' }}>
-                            <ICONS.Cross />
+                            <ICONS.Cross sx={{ color: 'white' }}/>
                         </Button>
                     </div>
                     <Divider />
@@ -196,7 +196,7 @@ function CustomizeProfile() {
                     }}>
                         <DialogTitle color='#FF0080'>Followings</DialogTitle>
                         <Button onClick={handleEnd} style={{ backgroundColor: '#ff0080' }}>
-                            <ICONS.Cross />
+                            <ICONS.Cross sx={{ color: 'white' }}/>
                         </Button>
                     </div>
                     <Divider />

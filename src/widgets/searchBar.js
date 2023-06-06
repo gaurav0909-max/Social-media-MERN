@@ -14,8 +14,8 @@ export default function Search() {
     const Ipad = useMediaQuery('(min-width:900px)');
     const [results, setResults] = useState()
 
-    const handleChange = async (searchTerm) => {
-        const Data = await api.search.get(searchTerm)
+    const handleChange = async (name) => {
+        const Data = await api.search.get(name)
         setResults(Data.data.users)
         console.log(Data.data.users)
     }
@@ -61,8 +61,8 @@ export default function Search() {
                     id="search-bar"
                     className="text"
                     onChange={(e) => {
-                        // setsearchTerm(e.target.value);
-                        handleChange(`searchTerm=${e.target.value}`)
+                        // setname(e.target.value);
+                        handleChange(`name=${e.target.value}`)
                     }}
                     label="Enter a userName"
                     variant="outlined"

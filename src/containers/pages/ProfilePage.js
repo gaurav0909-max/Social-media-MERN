@@ -112,9 +112,9 @@ function ProfilePage() {
         setLoading(false);
 
     }
-    useEffect(() => {
-        handleAPI()
-    }, [userName])
+    // useEffect(() => {
+    //     handleAPI()
+    // }, [userName])
     const dialogWidth = 500;
     return (
         <div >
