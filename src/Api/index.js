@@ -64,7 +64,7 @@ export const api = {
     myPost: {
         post: (params) => {
             return client({
-                url: 'posts',
+                url: 'posts/create',
                 data: params,
                 method: METHODS.POST,
                 headers: {

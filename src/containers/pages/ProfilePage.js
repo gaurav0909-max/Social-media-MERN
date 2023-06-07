@@ -31,6 +31,21 @@ function ProfilePage() {
     }
 
     const handleChange = (e) => {
+
+        const { name, value } = e.target;
+
+       
+        if (name === "userName") {
+         
+          const specialChars = /[-’/`~!#*$@_%+=.,^&(){}[\]|;:”<>?\\]/g
+          
+          // Check if the value contains any special characters
+          if (specialChars.test(value)) {
+            // Special characters found, display an error or handle accordingly
+            console.log("Username cannot contain special characters");
+            return;
+          }
+        }
         updatedata({
             ...data,
             [e.target.name]: e.target.value
@@ -151,7 +166,7 @@ function ProfilePage() {
                     <div style={{ display: 'flex', justifyContent: 'space-around', gap: '20px' }}>
                         <div>
                             {
-                                loading ? <Skeleton variant="text" width={50} height={20} /> :
+                                loading ? <Skeleton variant="text" width={50} height={50} /> :
                                     <Typography >{countPost}
 
                                     </Typography>
@@ -162,7 +177,7 @@ function ProfilePage() {
                         </div>
                         <div>
                             {
-                                loading ? <Skeleton variant="text" width={20} height={20} /> :
+                                loading ? <Skeleton variant="text" width={50} height={50} /> :
                                     <Typography >
                                         {followers}
                                     </Typography>
@@ -172,7 +187,7 @@ function ProfilePage() {
                         </div>
                         <div>
                             {
-                                loading ? <Skeleton variant="text" width={20} height={20} /> :
+                                loading ? <Skeleton variant="text" width={50} height={50} /> :
                                     <Typography >
                                         {followings}
                                     </Typography>
@@ -188,7 +203,10 @@ function ProfilePage() {
                        </ButtonGroup> */}
 
                     <Typography sx={{ p: 1 }}>
+                        <pre>
                         {data.bio}
+                        </pre>
+                        
                     </Typography>
                     {/* <Typography sx={{p:1}}>
                       My hobbies are Travelling and Photography...

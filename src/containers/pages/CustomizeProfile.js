@@ -105,7 +105,7 @@ function CustomizeProfile() {
                     <div style={{ display: 'flex', justifyContent: 'space-around', gap: '20px' }}>
                         <div>
                             {
-                                loading ? <Skeleton variant="text" width={20} height={20} /> :
+                                loading ? <Skeleton variant="text" width={60} height={50}/> :
                                     <Typography >
                                         {count}
                                     </Typography>
@@ -116,7 +116,7 @@ function CustomizeProfile() {
                         </div>
                         <div>
                             {
-                                loading ? <Skeleton variant="text" width={20} height={20} /> :
+                                loading ? <Skeleton variant="text" width={100} height={50}/> :
                                     <Typography >
                                         {followers}
                                     </Typography>
@@ -127,7 +127,8 @@ function CustomizeProfile() {
                         </div>
                         <div>
                             {
-                                loading ? <Skeleton variant="text" width={20} height={20} /> :
+                                loading ? 
+                                <Skeleton variant="text" width={100} height={50}/> :
                                     <Typography >
                                         {followings}
                                     </Typography>
