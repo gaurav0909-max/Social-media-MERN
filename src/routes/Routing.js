@@ -31,7 +31,7 @@ const Routing = ({ userName }) => {
                 <>
                     <Grid container columns={18} sx={{
                         width: Ipad ? `calc(100% - ${drawerWidth}px)` : '100%',
-                        ml: Ipad ? `${drawerWidth}px` : null,
+                        ml: Ipad ? `${drawerWidth}px` :-5 ,
                         mt: '20px',
                     }}>
                         <Grid item md={9} lg={6}>

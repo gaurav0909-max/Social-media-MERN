@@ -80,6 +80,7 @@ import { ICONS } from "../Assets/Icons";
 // import { fetchProfileById } from "../redux/reducers/userProfileSlice";
 import { api } from "../Api";
 import { useLocation } from "react-router-dom";
+import { formateDate } from "../utils/helpers/formateDate";
 
 export default function OthersPost() {
   const dispatch = useDispatch();
@@ -98,7 +99,7 @@ export default function OthersPost() {
 
   useEffect(() => {
     handleAPI();
-  });
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -131,7 +132,13 @@ export default function OthersPost() {
                 sx={{ backgroundColor: "#FF4DA6", color: "white" }}
                 src={profileImage}
               ></Avatar>
-              <Typography level="h4">{userName}</Typography>
+              <div>
+                <Typography level="h4">{userName}</Typography>
+                <Typography level="body3">
+                {formateDate(item.createdDate)}
+                  </Typography>
+              </div>
+
               <IconButton
                 variant="plain"
                 color="neutral"
@@ -147,7 +154,7 @@ export default function OthersPost() {
               </AspectRatio>
             </Box>
 
-            <Box sx={{ display: "flex", gap: 1.5, mt: "auto" }}>
+            <Box sx={{ display: "flex" }}>
               <IconButton variant="plain" color="neutral" size="sm">
                 <Checkbox
                   {...label}
