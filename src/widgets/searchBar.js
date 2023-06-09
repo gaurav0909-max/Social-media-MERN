@@ -21,23 +21,23 @@ export default function Search() {
 
   const handleChange = async (name) => {
     const Data = await api.search.get(name);
-    setResults(Data.data.users);
-    console.log(Data.data.users);
+    setResults(Data.data.data.users);
+    console.log(Data.data.data.users);
   };
 
   const handleUserProfile = async (userName) => {
     console.log(userName);
     try {
       const myData = await api.profile.getByUserName(userName);
-      console.log("myData", myData.data.user);
+      console.log("myData", myData.data.data.user);
 
       navigate(`/${userName}`, {
         state: {
-          userName: myData?.data?.user?.userName,
-          fullName: myData?.data?.user?.fullName,
-          profileImage: myData?.data?.user?.profileImage,
-          bio: myData?.data?.user?.bio,
-          id: myData.data.user._id,
+          userName: myData?.data.data?.user?.userName,
+          fullName: myData?.data?.data.user?.fullName,
+          profileImage: myData?.data.data?.user?.profileImage,
+          bio: myData?.data.data?.user?.bio,
+          id: myData.data.data.user._id,
         },
       });
     } catch {}
@@ -65,10 +65,11 @@ export default function Search() {
           variant="outlined"
           placeholder="Search..."
           size="medium"
+          sx={{ Color:'pink'}}
         />
-        <IconButton>
-          <ICONS.Search />
-        </IconButton>
+        {/* <IconButton>
+          <ICONS.Search sx={{color:'#ff0080'}} />
+        </IconButton> */}
       </form>
       
       <div style={{ padding: 3 }}>

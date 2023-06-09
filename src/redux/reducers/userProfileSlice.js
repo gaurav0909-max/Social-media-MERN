@@ -6,9 +6,10 @@ export const fetchProfileById = createAsyncThunk(
   async () => {
     try {
       const response = await api.profile.getByToken(Headers);
+      console.log(response.data.data.user)
       return response;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return error;
     }
   }
@@ -51,7 +52,8 @@ export const userProfileSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchProfileById.fulfilled, (state, action) => {
-      state.profile.data = action.payload.data;
+      state.profile.data = action.payload.data.data;
+      // console.log('action.payload', state.profile.data.user)
     });
     builder.addCase(fetchProfileById.pending, (state, action) => {
       state.profile.loading = true;

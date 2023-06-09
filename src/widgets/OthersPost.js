@@ -94,7 +94,7 @@ export default function OthersPost() {
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const handleAPI = async () => {
     const Posts = await api.myPost.getByName(id);
-    setPostdata(Posts.data.posts);
+    setPostdata(Posts.data.data.posts);
   };
 
   useEffect(() => {

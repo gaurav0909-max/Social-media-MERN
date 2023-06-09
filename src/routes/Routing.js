@@ -15,6 +15,8 @@ import UploadPost from '../containers/pages/UploadPost';
 import Search from '../widgets/searchBar';
 import CustomizeProfile from '../containers/pages/CustomizeProfile'
 import OthersPost from '../widgets/OthersPost';
+import LabelBottomNavigation from '../containers/pages/BottomNavigation';
+import FixedBottomNavigation from '../containers/pages/BottomNavigation';
 
 const drawerWidth = 240;
 
@@ -45,18 +47,21 @@ const Routing = ({ userName }) => {
                         </Grid>
                     </Grid>
                     <DrawerElement />
+                    <FixedBottomNavigation/>
                 </>
             } />
             <Route path="/category" element={
                 <>
                     <DrawerElement />
                     <Category />
+                    <FixedBottomNavigation/>
                 </>
             } />
             <Route path="/upload" element={
                 <>
                     <DrawerElement />
                     <UploadPost />
+                    <FixedBottomNavigation/>
                 </>
             } />
             <Route path='/Profile' element={
@@ -64,12 +69,14 @@ const Routing = ({ userName }) => {
                     <DrawerElement />
                     <ProfilePage />
                     <UserPost />
+                    <FixedBottomNavigation/>
                 </>
             } />
             <Route path='/search/' element={
                 <>
                     <DrawerElement />
                     <Search />
+                    <FixedBottomNavigation/>
                 </>
 
 
@@ -79,6 +86,7 @@ const Routing = ({ userName }) => {
                     <DrawerElement />
                     < CustomizeProfile />
                     <OthersPost/>
+                    <FixedBottomNavigation/>
                     {/* <UserPost /> */}
                 </>
 

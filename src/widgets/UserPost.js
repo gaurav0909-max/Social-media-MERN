@@ -103,14 +103,14 @@ export default function UserPost() {
       //console.log("Here----------->", response.payload.message.error);
       // console.log(response.payload.data.posts[0].createdDate
       //   );
-      setmyPost(response.payload.data.posts);
+      setmyPost(response.payload.data.data.posts);
     });
   }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchProfileById()).then((response) => {
-      // console.log(response.payload.data.userName)
-      updatedata(response.payload.data);
+      // console.log(response.payload.data.data.user)
+      updatedata(response.payload.data.data.user);
     });
   }, [dispatch]);
 
