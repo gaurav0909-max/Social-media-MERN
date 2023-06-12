@@ -19,6 +19,7 @@ import {
   DialogTitle,
   Divider,
   TextField,
+  useMediaQuery,
 } from "@mui/material";
 import { ICONS } from "../Assets/Icons";
 import { fetchProfileById } from "../redux/reducers/userProfileSlice";
@@ -60,11 +61,11 @@ export default function InstagramPost({ id, img }) {
     <Card
       variant="outlined"
       sx={{
-        minWidth: 300,
-        margin: "6px",
+        minWidth: 250,
+        marginBottom: "7px",
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", pb: 1.5, gap: 1 }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
         <Box
           sx={{
             position: "relative",

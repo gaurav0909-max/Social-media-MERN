@@ -72,12 +72,10 @@ import {
   Grid,
   useMediaQuery,
 } from "@mui/material";
-// import { fetchData } from "../redux/reducers/dataSlice";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 import { ICONS } from "../Assets/Icons";
-// import { fetchProfileById } from "../redux/reducers/userProfileSlice";
 import { api } from "../Api";
 import { useLocation } from "react-router-dom";
 import { formateDate } from "../utils/helpers/formateDate";
@@ -108,22 +106,22 @@ export default function OthersPost() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  console.log(postdata);
   return (
     <Box
       sx={{
         width: Ipad ? `calc(100% - ${drawerWidth}px)` : "100%",
         ml: Ipad ? `${drawerWidth}px` : null,
         mt: "20px",
-        display: "flex",
       }}
     >
-      <Grid container columns={18}>
+      <Grid container columns={18} sx={{ gap: 1, display: "flex" }}>
         {postdata.map((item, index) => (
           <Card
             variant="outlined"
             sx={{
-              width: 300,
-              margin: "4px",
+              width:{xs:250, sm:300, md:320, lg:350}
             }}
           >
             <Box sx={{ marginBottom: "10px", display: "flex", gap: "20px" }}>
@@ -135,8 +133,8 @@ export default function OthersPost() {
               <div>
                 <Typography level="h4">{userName}</Typography>
                 <Typography level="body3">
-                {formateDate(item.createdDate)}
-                  </Typography>
+                  {formateDate(item.createdDate)}
+                </Typography>
               </div>
 
               <IconButton

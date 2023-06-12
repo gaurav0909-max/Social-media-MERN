@@ -128,15 +128,17 @@ export default function UserPost() {
         ml: Ipad ? `${drawerWidth}px` : null,
         mt: "20px",
         display: "flex",
+       
       }}
     >
-      <Grid container columns={18}>
+      <Grid container columns={18} sx={{gap:1}}>
         {myPost.map((item, index) => (
           <Card
             variant="outlined"
             sx={{
-              width: 300,
-              margin: "4px",
+              width:{xs:250, sm:300, md:320, lg:350}
+              // margin: "4px",
+              
             }}
             key={index}
             elevation={12}

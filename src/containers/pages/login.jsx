@@ -61,16 +61,16 @@ const Login = () => {
 
   const handleLogin = async () => {
     const Data = await api.auth.login(data);
-    console.log(Data.data.data.token);
+    console.log(Data.data.message);
 
-    if (Data.data.Password === "Incorrect password !") {
-      setLogin(false);
-      enqueueSnackbar("Please Try Again", { variant: "error" });
-    } else {
+    if (Data.data.message=== "Login successful !") {
       setLogin(true);
       Navigate("/home");
       localStorage.setItem('token', Data.data.data.token)
       enqueueSnackbar("Login Successful", { variant: "success" });
+    } else {
+      setLogin(false);
+      enqueueSnackbar("Please Try Again", { variant: "error" });
     }
     // console.log(Data.data.data.token);
   };

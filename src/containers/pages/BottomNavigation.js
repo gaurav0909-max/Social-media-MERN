@@ -53,15 +53,15 @@ export default function FixedBottomNavigation() {
       <Box sx={{ pb: 7 }} ref={ref}>
         <CssBaseline />
 
-        <Paper sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }} elevation={3}>
+        <Paper sx={{ position: "fixed", bottom: 0, left: 0, right: 0, color:'#ff0080' }} elevation={3}>
           <BottomNavigation
             showLabels
             value={value}
             onChange={(event, newValue) => handleNavigation(newValue)}
           >
-            <BottomNavigationAction label="Home" icon={<ICONS.Home />} />
-            <BottomNavigationAction label="Search" icon={<ICONS.Search />} />
-            <BottomNavigationAction label="Upload" icon={<ICONS.Upload />} />
+            <BottomNavigationAction label="Home" style={{color:"#ff0080"}}   icon={<ICONS.Home />}/>
+            <BottomNavigationAction label="Search"style={{color:"#ff0080"}} icon={<ICONS.Search />}/>
+            <BottomNavigationAction label="Upload" style={{color:"#ff0080"}} icon={<ICONS.Upload />}/>
           </BottomNavigation>
         </Paper>
       </Box>

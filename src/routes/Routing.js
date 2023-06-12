@@ -20,7 +20,7 @@ import FixedBottomNavigation from '../containers/pages/BottomNavigation';
 
 const drawerWidth = 240;
 
-const Routing = ({ userName }) => {
+const Routing = () => {
     const Ipad = useMediaQuery('(min-width:900px)');
     return (
 
@@ -32,8 +32,8 @@ const Routing = ({ userName }) => {
             <Route path="/home" element={
                 <>
                     <Grid container columns={18} sx={{
-                        width: Ipad ? `calc(100% - ${drawerWidth}px)` : '100%',
-                        ml: Ipad ? `${drawerWidth}px` :-5 ,
+                        width: Ipad ? `calc(100% - ${drawerWidth}px)` :"100%",
+                        ml: Ipad ? `${drawerWidth}px` :null ,
                         mt: '20px',
                     }}>
                         <Grid item md={9} lg={6}>
