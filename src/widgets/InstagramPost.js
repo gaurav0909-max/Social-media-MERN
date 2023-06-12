@@ -56,7 +56,8 @@ export default function InstagramPost({ id, img }) {
       updatedata(response.payload.data);
     });
   }, [dispatch]);
-
+  
+  // console.log(data.data.user.userName)
   return (
     <Card
       variant="outlined"
@@ -265,7 +266,7 @@ export default function InstagramPost({ id, img }) {
             />
             <div>
               <Typography variant="h5" textColor="#FF0080">
-                {data.userName}
+              {data.data?.user?.userName}
               </Typography>
               <Typography variant="subtitle1">{value}</Typography>
             </div>

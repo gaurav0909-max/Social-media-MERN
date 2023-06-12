@@ -54,6 +54,7 @@ import Box from "@mui/joy/Box";
 import Card from "@mui/joy/Card";
 import IconButton from "@mui/joy/IconButton";
 import Typography from "@mui/joy/Typography";
+import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Button,
@@ -75,7 +76,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { ICONS } from "../Assets/Icons";
 import { fetchProfileById } from "../redux/reducers/userProfileSlice";
-import EditIcon from "@mui/icons-material/Edit";
 import { formateDate } from "../utils/helpers/formateDate";
 
 export default function UserPost() {
@@ -88,7 +88,7 @@ export default function UserPost() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  
+
   // const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
   // const date = date.toLocaleDateString('en-EN', options)
   const dispatch = useDispatch();
@@ -128,22 +128,20 @@ export default function UserPost() {
         ml: Ipad ? `${drawerWidth}px` : null,
         mt: "20px",
         display: "flex",
-       
       }}
     >
-      <Grid container columns={18} sx={{gap:1}}>
+      <Grid container columns={18} sx={{ gap: 1 }}>
         {myPost.map((item, index) => (
           <Card
             variant="outlined"
             sx={{
-              width:{xs:250, sm:300, md:320, lg:350}
+              width: 300
               // margin: "4px",
-              
             }}
             key={index}
             elevation={12}
           >
-            <Box sx={{ marginBottom: "10px", display: "flex", gap: "20px" }}>
+            <Box sx={{ marginBottom: "10px", display: "flex", gap: "40px", alignItems:'center' }}>
               <Avatar
                 variant="soft"
                 sx={{ backgroundColor: "#FF4DA6", color: "white" }}
@@ -156,7 +154,7 @@ export default function UserPost() {
                   {formateDate(item.createdDate)}
                 </Typography>
               </div>
-              <Box sx={{ flexGrow: 0 }}>
+              <Box sx={{ flexGrow: 2 }}>
                 <Tooltip>
                   <IconButton
                     onClick={handleOpenUserMenu}

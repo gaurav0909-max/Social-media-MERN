@@ -70,6 +70,9 @@ import {
   DialogTitle,
   Divider,
   Grid,
+  Menu,
+  MenuItem,
+  Tooltip,
   useMediaQuery,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
@@ -79,7 +82,8 @@ import { ICONS } from "../Assets/Icons";
 import { api } from "../Api";
 import { useLocation } from "react-router-dom";
 import { formateDate } from "../utils/helpers/formateDate";
-
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 export default function OthersPost() {
   const dispatch = useDispatch();
   const [postdata, setPostdata] = useState([]);
@@ -90,6 +94,17 @@ export default function OthersPost() {
   const location = useLocation();
   const { id, userName, profileImage } = location.state;
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   const handleAPI = async () => {
     const Posts = await api.myPost.getByName(id);
     setPostdata(Posts.data.data.posts);
@@ -121,7 +136,7 @@ export default function OthersPost() {
           <Card
             variant="outlined"
             sx={{
-              width:{xs:250, sm:300, md:320, lg:350}
+              width: 300,
             }}
           >
             <Box sx={{ marginBottom: "10px", display: "flex", gap: "20px" }}>
@@ -137,14 +152,56 @@ export default function OthersPost() {
                 </Typography>
               </div>
 
-              <IconButton
-                variant="plain"
-                color="neutral"
-                size="sm"
-                sx={{ ml: "auto" }}
-              >
-                <ICONS.Dots />
-              </IconButton>
+              <Box sx={{ flexGrow: 2 }}>
+                <Tooltip>
+                  <IconButton
+                    onClick={handleOpenUserMenu}
+                    variant="plain"
+                    color="neutral"
+                    size="sm"
+                    sx={{ ml: "auto" }}
+                  >
+                    <ICONS.Dots />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1 }}>
+                    <EditIcon sx={{ color: "#ff0080" }} />
+                    <Typography
+                      textAlign="center"
+                      fontWeight={500}
+                      sx={{ color: "#ff0080" }}
+                    >
+                      Edit
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1 }}>
+                    <DeleteIcon sx={{ color: "#ff0080" }} />
+                    <Typography
+                      textAlign="center"
+                      fontWeight={500}
+                      sx={{ color: "#ff0080" }}
+                    >
+                      Delete
+                    </Typography>
+                  </MenuItem>
+                </Menu>
+              </Box>
             </Box>
             <Box>
               <AspectRatio objectFit="cover" variant="outlined" key={index}>
