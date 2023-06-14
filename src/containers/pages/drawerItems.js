@@ -28,7 +28,7 @@ const drawerItems = [
   },
   {
     id: 4,
-    label: 'logout',
+    label: 'Logout',
     icon: <ICONS.Exit />
   }
 ]

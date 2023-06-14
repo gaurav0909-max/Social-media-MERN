@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Container,
   InputAdornment,
   TextField,
   useMediaQuery,
@@ -38,6 +39,7 @@ function UploadPost() {
   };
 
   return (
+    <Container>
     <Card
       sx={{
         width: Ipad ? `calc(100% - ${drawerWidth}px)` : "100%",
@@ -95,6 +97,7 @@ function UploadPost() {
         </Button>
       </CardContent>
     </Card>
+    </Container>
   );
 }
 

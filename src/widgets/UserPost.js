@@ -135,20 +135,27 @@ export default function UserPost() {
           <Card
             variant="outlined"
             sx={{
-              width: 300
-              // margin: "4px",
+              width: 300,
+              borderColor:'#ff0080'
             }}
             key={index}
             elevation={12}
           >
-            <Box sx={{ marginBottom: "10px", display: "flex", gap: "40px", alignItems:'center' }}>
+            <Box
+              sx={{
+                marginBottom: "10px",
+                display: "flex",
+                gap: "40px",
+                alignItems: "center",
+              }}
+            >
               <Avatar
                 variant="soft"
                 sx={{ backgroundColor: "#FF4DA6", color: "white" }}
                 src={data.profileImage}
               ></Avatar>
               <div>
-                <Typography level="h4">{data.userName}</Typography>
+                <Typography level="h6">{data.fullName}</Typography>
                 <Typography level="body3" textAlign={"left"}>
                   {/* {item.createdDate.slice(0, 10)} */}
                   {formateDate(item.createdDate)}
@@ -238,7 +245,17 @@ export default function UserPost() {
               </IconButton>
             </Box>
             <Box>
-              <Typography textAlign="left">{item.caption}</Typography>
+              <Typography
+                textAlign="left"
+                sx={{
+                  display: "-webkit-box",
+                  overflow: "hidden",
+                  WebkitBoxOrient: "vertical",
+                  WebkitLineClamp: 2,
+                }}
+              >
+                {item.caption}
+              </Typography>
             </Box>
           </Card>
         ))}

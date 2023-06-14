@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import { DRAWER_WIDTH } from '../../consts/constants';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-const navbarItems = ['Home', 'Category', 'Profile']
+const navbarItems = ['Home', 'Category', 'Profile','Logout']
 
 function ResponsiveDrawer(props) {
   const { window } = props;

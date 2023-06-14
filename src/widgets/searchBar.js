@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import { DRAWER_WIDTH } from "../consts/constants";
 import {
   Avatar,
+  Box,
   Card,
   IconButton,
   Typography,
@@ -65,47 +66,67 @@ export default function Search() {
           variant="outlined"
           placeholder="Search..."
           size="medium"
-          sx={{ Color:'pink'}}
+          sx={{ Color: "pink" }}
         />
         {/* <IconButton>
           <ICONS.Search sx={{color:'#ff0080'}} />
         </IconButton> */}
       </form>
-      
-      <div style={{ padding: 3 }}>
-        {results?.map((data, index) => {
-          return (
-            <Card
-              className="text"
-              sx={{
-                padding: 3,
-                fontSize: 30,
-                color: "darksalmon",
-                margin: 1,
-                width: Ipad ? `calc(100% - ${DRAWER_WIDTH}px)` : "100%",
-                ml: Ipad ? `${DRAWER_WIDTH}px` : null,
-                display: "flex",
-                flexDirection: Ipad ? "row" : "column",
-                alignItems: "center",
-                gap: 10,
-              }}
-              key={index}
-              onClick={() => handleUserProfile(`${data.userName}`)}
-            >
-              <Avatar
-                src={data.profileImage}
-                sx={{ border: "2px solid", height: "70px", width: "70px" }}
-              />
-              <div>
-                <Typography variant="h4">
-                  {data.userName}
-                  <Typography variant="subtitle1">{data.fullName}</Typography>
-                </Typography>
-              </div>
-            </Card>
-          );
-        })}
-      </div>
+
+      {results ? (
+        <div style={{ padding: 3 }}>
+          {results?.map((data, index) => {
+            return (
+              <Card
+                className="text"
+                sx={{
+                  padding: 3,
+                  fontSize: 30,
+                  color: "darksalmon",
+                  margin: 1,
+                  width: Ipad ? `calc(100% - ${DRAWER_WIDTH}px)` : "100%",
+                  ml: Ipad ? `${DRAWER_WIDTH}px` : null,
+                  display: "flex",
+                  flexDirection: Ipad ? "row" : "column",
+                  alignItems: "center",
+                  gap: 10,
+                }}
+                key={index}
+                onClick={() => handleUserProfile(`${data.userName}`)}
+              >
+                <Avatar
+                  src={data.profileImage}
+                  sx={{ border: "2px solid", height: "70px", width: "70px" }}
+                />
+                <div>
+                  <Typography variant="h4">
+                    {data.userName}
+                    <Typography variant="subtitle1">{data.fullName}</Typography>
+                  </Typography>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      ) : (
+        <Box
+        sx={{
+          width: Ipad ? `calc(100% - ${DRAWER_WIDTH}px)` : "100%",
+          ml: Ipad ? `${DRAWER_WIDTH}px` : null,
+          mt: "20px",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+          <img
+            src="https://img.freepik.com/premium-vector/programmers-testing-applications_179970-1132.jpg?w=1380"
+           
+            alt=""
+          />
+        </Box>
+      )}
     </div>
   );
 }

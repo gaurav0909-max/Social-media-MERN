@@ -67,15 +67,15 @@ request.interceptors.response.use(
             };
             throw error;
         }
-        if (status === 404) {
-            const error = {
-                originalRequest,
-                status,
-                message: 'The requested content does not exist, please try again later'
+        // if (status === 404) {
+        //     const error = {
+        //         originalRequest,
+        //         status,
+        //         message: 'The requested content does not exist, please try again later'
                
-            };
-            throw error;
-        }
+        //     };
+        //     throw error;
+        // }
 
         const response = err.response?.data;
         const message = response ? response : err.message;

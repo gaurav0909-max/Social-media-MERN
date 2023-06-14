@@ -112,7 +112,7 @@ export default function Category() {
         columns={12}
         sx={{
           width: Ipad ? `calc(100% - ${drawerWidth}px)` : "100%",
-          gridGap: "7rem",
+          gridGap: "10px",
           ml: Ipad ? `${drawerWidth}px` : null,
           mt: "20px",
         }}
@@ -136,13 +136,14 @@ export default function Category() {
                   >
                     {data.label}
                   </Typography>
-                  <Typography variant="overline" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary">
                     {data.details}
                   </Typography>
                 </CardContent>
                 <CardActions>
                   <Button
                     size="small"
+                    variant="outlined"
                     style={{
                       color: "#ff0080",
                       borderColor: "#ff0080",
@@ -153,6 +154,7 @@ export default function Category() {
                   </Button>
                   <Button
                     size="small"
+                    variant="outlined"
                     style={{
                       color: "#ff0080",
                       borderColor: "#ff0080",
@@ -170,6 +172,7 @@ export default function Category() {
                   sx={{
                     width: Ipad ? `calc(100% - ${drawerWidth}px)` : "100%",
                     maxWidth: 345,
+                    
                   }}
                   key={index}
                 >
@@ -185,6 +188,7 @@ export default function Category() {
                   <CardActions>
                     <Button
                       size="small"
+                      variant="outlined"
                       style={{
                         color: "#ff0080",
                         borderColor: "#ff0080",
@@ -195,6 +199,7 @@ export default function Category() {
                     </Button>
                     <Button
                       size="small"
+                      variant="outlined"
                       style={{
                         color: "#ff0080",
                         borderColor: "#ff0080",
@@ -239,7 +244,7 @@ const CategoryItems = [
     label: "Shirts",
     category: "Shop",
     details:
-      "A shirt is a piece of clothing worn on the upper part of your body with a collar, sleeves, and buttons down the front.",
+      "A shirt with a collar, sleeves, and buttons",
     img: "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
   },
   {
@@ -254,7 +259,7 @@ const CategoryItems = [
     label: "Grocery",
     category: "Shop",
     details:
-      "Grocery shopping can be a messy affair, so make it easier by grabbing your favorite cereals, milk and much more at the supermarket.",
+      "Grocery shopping can be a messy affair",
     img: "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
   },
   {
@@ -297,14 +302,14 @@ const CategoryItems = [
     label: "Watermalon",
     category: "Fruit",
     details:
-      "This summer is so hot I think I need a bite of watermelon every minute.",
+      "I need a bite of watermelon every minute.",
     img: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
   },
   {
     id: 12,
     label: "Ocean with Sun",
     category: "Nature",
-    details: "Live in the sunshine, swim the sea, drink the wild air.",
+    details: "Live in the sunshine, swim the sea",
     img: "https://images.unsplash.com/photo-1414609245224-afa02bfb3fda?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=689&q=80",
   },
 ];

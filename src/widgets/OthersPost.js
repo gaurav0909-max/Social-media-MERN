@@ -87,12 +87,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 export default function OthersPost() {
   const dispatch = useDispatch();
   const [postdata, setPostdata] = useState([]);
+  const [error, setError] = useState("");
   const [data, updatedata] = useState([]);
   const [open, setOpen] = useState(false);
   const drawerWidth = 240;
   const Ipad = useMediaQuery("(min-width:900px)");
   const location = useLocation();
-  const { id, userName, profileImage } = location.state;
+  const { id, fullName, profileImage } = location.state;
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -106,8 +107,13 @@ export default function OthersPost() {
   };
 
   const handleAPI = async () => {
-    const Posts = await api.myPost.getByName(id);
-    setPostdata(Posts.data.data.posts);
+    try {
+      const Posts = await api.myPost.getByName(id);
+      setPostdata(Posts.data.data.posts);
+    } catch (error) {
+      console.error("Error fetching data from the API:", error.message.message);
+      setError(error.message.message);
+    }
   };
 
   useEffect(() => {
@@ -122,252 +128,298 @@ export default function OthersPost() {
     setOpen(false);
   };
 
-  console.log(postdata);
-  return (
-    <Box
-      sx={{
-        width: Ipad ? `calc(100% - ${drawerWidth}px)` : "100%",
-        ml: Ipad ? `${drawerWidth}px` : null,
-        mt: "20px",
-      }}
-    >
-      <Grid container columns={18} sx={{ gap: 1, display: "flex" }}>
-        {postdata.map((item, index) => (
-          <Card
-            variant="outlined"
-            sx={{
-              width: 300,
+  console.log(error);
+
+  if (error) {
+    return (
+      <Box
+        sx={{
+          width: Ipad ? `calc(100% - ${drawerWidth}px)` : "100%",
+          ml: Ipad ? `${drawerWidth}px` : null,
+          mt: "20px",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {error && (
+          <img
+            src="https://static.vecteezy.com/system/resources/previews/014/814/231/original/a-modern-flat-rounded-icon-of-no-post-yet-vector.jpg"
+            alt=""
+            style={{
+              width: "400px",
+              height: "400px",
+            }}
+          />
+        )}
+      </Box>
+    );
+  } else {
+    return (
+      <Box
+        sx={{
+          width: Ipad ? `calc(100% - ${drawerWidth}px)` : "100%",
+          ml: Ipad ? `${drawerWidth}px` : null,
+          mt: "20px",
+        }}
+      >
+        <Grid container columns={18} sx={{ gap: 1 }}>
+          {postdata.map((item, index) => (
+            <Card
+              variant="outlined"
+              sx={{
+                width: 300,
+                borderColor: "#ff0080",
+              }}
+            >
+              <Box
+                sx={{
+                  marginBottom: "10px",
+                  display: "flex",
+                  gap: "40px",
+                  alignItems: "center",
+                }}
+              >
+                <Avatar
+                  variant="soft"
+                  sx={{ backgroundColor: "#FF4DA6", color: "white" }}
+                  src={profileImage}
+                ></Avatar>
+                <div>
+                  <Typography level="h6">{fullName}</Typography>
+                  <Typography level="body3" textAlign={"left"}>
+                    {formateDate(item.createdDate)}
+                  </Typography>
+                </div>
+
+                <Box sx={{ flexGrow: 1 }}>
+                  <Tooltip>
+                    <IconButton
+                      onClick={handleOpenUserMenu}
+                      variant="plain"
+                      color="neutral"
+                      size="sm"
+                      sx={{ ml: "auto" }}
+                    >
+                      <ICONS.Dots />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1 }}>
+                      <EditIcon sx={{ color: "#ff0080" }} />
+                      <Typography
+                        textAlign="center"
+                        fontWeight={500}
+                        sx={{ color: "#ff0080" }}
+                      >
+                        Edit
+                      </Typography>
+                    </MenuItem>
+                    <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1 }}>
+                      <DeleteIcon sx={{ color: "#ff0080" }} />
+                      <Typography
+                        textAlign="center"
+                        fontWeight={500}
+                        sx={{ color: "#ff0080" }}
+                      >
+                        Delete
+                      </Typography>
+                    </MenuItem>
+                  </Menu>
+                </Box>
+              </Box>
+              <Box>
+                <AspectRatio objectFit="cover" variant="outlined" key={index}>
+                  <img alt="" src={item.postImage} />
+                </AspectRatio>
+              </Box>
+
+              <Box sx={{ display: "flex" }}>
+                <IconButton variant="plain" color="neutral" size="sm">
+                  <Checkbox
+                    {...label}
+                    icon={<ICONS.LikeBorder sx={{ color: "red" }} />}
+                    checkedIcon={<ICONS.Like sx={{ color: "red" }} />}
+                  />
+                </IconButton>
+                <IconButton
+                  variant="plain"
+                  color="neutral"
+                  size="sm"
+                  onClick={handleClickOpen}
+                >
+                  {/* <Checkbox {...label} icon={<ICONS.CommentsBorder sx={{ color: 'black' }} />} checkedIcon={<ICONS.Comments sx={{ color: 'black' }} />} /> */}
+                  <ICONS.CommentsBorder />
+                </IconButton>
+                <IconButton variant="plain" color="neutral" size="sm">
+                  <ICONS.Share />
+                </IconButton>
+              </Box>
+              <Box>
+                <Typography
+                  textAlign="left"
+                  sx={{
+                    display: "-webkit-box",
+                    overflow: "hidden",
+                    WebkitBoxOrient: "vertical",
+                    WebkitLineClamp: 2,
+                  }}
+                >
+                  {item.caption}
+                </Typography>
+              </Box>
+            </Card>
+          ))}
+        </Grid>
+        <Dialog open={open} onClose={handleClose} circle={true}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
             }}
           >
-            <Box sx={{ marginBottom: "10px", display: "flex", gap: "20px" }}>
+            <DialogTitle color="#FF0080">Comments</DialogTitle>
+            <Button onClick={handleClose} color="error">
+              <ICONS.Cross />
+            </Button>
+          </div>
+          <Divider />
+          <DialogContent>
+            <DialogContentText>
+              All comments will be shown here!
+            </DialogContentText>
+
+            <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
               <Avatar
-                variant="soft"
-                sx={{ backgroundColor: "#FF4DA6", color: "white" }}
-                src={profileImage}
-              ></Avatar>
+                src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
+                sx={{ height: "70px", width: "70px" }}
+              />
               <div>
-                <Typography level="h4">{userName}</Typography>
-                <Typography level="body3">
-                  {formateDate(item.createdDate)}
+                <Typography variant="h5" textColor="#FF0080">
+                  gaurav0909
+                </Typography>
+                <Typography variant="subtitle1">
+                  You and strong Wi-Fi are what I only need in my life.
                 </Typography>
               </div>
-
-              <Box sx={{ flexGrow: 2 }}>
-                <Tooltip>
-                  <IconButton
-                    onClick={handleOpenUserMenu}
-                    variant="plain"
-                    color="neutral"
-                    size="sm"
-                    sx={{ ml: "auto" }}
-                  >
-                    <ICONS.Dots />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1 }}>
-                    <EditIcon sx={{ color: "#ff0080" }} />
-                    <Typography
-                      textAlign="center"
-                      fontWeight={500}
-                      sx={{ color: "#ff0080" }}
-                    >
-                      Edit
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1 }}>
-                    <DeleteIcon sx={{ color: "#ff0080" }} />
-                    <Typography
-                      textAlign="center"
-                      fontWeight={500}
-                      sx={{ color: "#ff0080" }}
-                    >
-                      Delete
-                    </Typography>
-                  </MenuItem>
-                </Menu>
-              </Box>
-            </Box>
-            <Box>
-              <AspectRatio objectFit="cover" variant="outlined" key={index}>
-                <img alt="" src={item.postImage} />
-              </AspectRatio>
-            </Box>
-
-            <Box sx={{ display: "flex" }}>
-              <IconButton variant="plain" color="neutral" size="sm">
-                <Checkbox
-                  {...label}
-                  icon={<ICONS.LikeBorder sx={{ color: "red" }} />}
-                  checkedIcon={<ICONS.Like sx={{ color: "red" }} />}
-                />
-              </IconButton>
-              <IconButton
-                variant="plain"
-                color="neutral"
-                size="sm"
-                onClick={handleClickOpen}
+            </Card>
+            <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
+              <Avatar
+                src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
+                sx={{ height: "70px", width: "70px" }}
+              />
+              <div>
+                <Typography variant="h5" textColor="#FF0080">
+                  Jayhind123
+                </Typography>
+                <Typography variant="subtitle1">
+                  You really light up a room…and my Instagram feed.
+                </Typography>
+              </div>
+            </Card>
+            <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
+              <Avatar
+                src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
+                sx={{ height: "70px", width: "70px" }}
+              />
+              <div>
+                <Typography variant="h5" textColor="#FF0080">
+                  gaurav0909
+                </Typography>
+                <Typography variant="subtitle1">
+                  This has such a clean composition
+                </Typography>
+              </div>
+            </Card>
+            <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
+              <Avatar
+                src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
+                sx={{ height: "70px", width: "70px" }}
+              />
+              <div>
+                <Typography variant="h5" textColor="#FF0080">
+                  gaurav0909
+                </Typography>
+                <Typography variant="subtitle1">
+                  You and strong Wi-Fi are what I only need in my life.
+                </Typography>
+              </div>
+            </Card>
+            <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
+              <Avatar
+                src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
+                sx={{ height: "70px", width: "70px" }}
+              />
+              <div>
+                <Typography variant="h5" textColor="#FF0080">
+                  Mahi777
+                </Typography>
+                <Typography variant="subtitle1">
+                  How do you make a phone selfie look so professional?
+                </Typography>
+              </div>
+            </Card>
+            <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
+              <Avatar
+                src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
+                sx={{ height: "70px", width: "70px" }}
+              />
+              <div>
+                <Typography variant="h5" textColor="#FF0080">
+                  hiren4434
+                </Typography>
+                <Typography variant="subtitle1">
+                  Excuse me, but who is this model I’m following?
+                </Typography>
+              </div>
+            </Card>
+            <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
+              <Avatar
+                src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
+                sx={{ height: "70px", width: "70px" }}
+              />
+              <div>
+                <Typography variant="h5" textColor="#FF0080">
+                  {data.userName}
+                </Typography>
+              </div>
+            </Card>
+          </DialogContent>
+          {/* <DialogActions>
+              <TextField
+                fullWidth
+                name="comments"
+                label="Add your comments"
+                onChange={handleChange}
+              />
+              <Button
+                color="error"
+                onClick={() => {
+                  handleValue();
+                }}
               >
-                {/* <Checkbox {...label} icon={<ICONS.CommentsBorder sx={{ color: 'black' }} />} checkedIcon={<ICONS.Comments sx={{ color: 'black' }} />} /> */}
-                <ICONS.CommentsBorder />
-              </IconButton>
-              <IconButton variant="plain" color="neutral" size="sm">
-                <ICONS.Share />
-              </IconButton>
-            </Box>
-            <Box>
-              <Typography textAlign="left">{item.caption}</Typography>
-            </Box>
-          </Card>
-        ))}
-      </Grid>
-      <Dialog open={open} onClose={handleClose} circle={true}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <DialogTitle color="#FF0080">Comments</DialogTitle>
-          <Button onClick={handleClose} color="error">
-            <ICONS.Cross />
-          </Button>
-        </div>
-        <Divider />
-        <DialogContent>
-          <DialogContentText>
-            All comments will be shown here!
-          </DialogContentText>
-
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                gaurav0909
-              </Typography>
-              <Typography variant="subtitle1">
-                You and strong Wi-Fi are what I only need in my life.
-              </Typography>
-            </div>
-          </Card>
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                Jayhind123
-              </Typography>
-              <Typography variant="subtitle1">
-                You really light up a room…and my Instagram feed.
-              </Typography>
-            </div>
-          </Card>
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                gaurav0909
-              </Typography>
-              <Typography variant="subtitle1">
-                This has such a clean composition
-              </Typography>
-            </div>
-          </Card>
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                gaurav0909
-              </Typography>
-              <Typography variant="subtitle1">
-                You and strong Wi-Fi are what I only need in my life.
-              </Typography>
-            </div>
-          </Card>
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                Mahi777
-              </Typography>
-              <Typography variant="subtitle1">
-                How do you make a phone selfie look so professional?
-              </Typography>
-            </div>
-          </Card>
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                hiren4434
-              </Typography>
-              <Typography variant="subtitle1">
-                Excuse me, but who is this model I’m following?
-              </Typography>
-            </div>
-          </Card>
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                {data.userName}
-              </Typography>
-            </div>
-          </Card>
-        </DialogContent>
-        {/* <DialogActions>
-                <TextField
-                  fullWidth
-                  name="comments"
-                  label="Add your comments"
-                  onChange={handleChange}
-                />
-                <Button
-                  color="error"
-                  onClick={() => {
-                    handleValue();
-                  }}
-                >
-                  Post
-                </Button>
-              </DialogActions> */}
-      </Dialog>
-    </Box>
-  );
+                Post
+              </Button>
+            </DialogActions> */}
+        </Dialog>
+      </Box>
+    );
+  }
 }

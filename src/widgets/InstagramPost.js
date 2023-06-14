@@ -64,9 +64,10 @@ export default function InstagramPost({ id, img }) {
       sx={{
         minWidth: 250,
         marginBottom: "7px",
+        marginRight: "7px"
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ display: "flex", alignItems: "center", margin:'10px' }}>
         <Box
           sx={{
             position: "relative",
@@ -90,7 +91,7 @@ export default function InstagramPost({ id, img }) {
             sx={{ p: 0.5, borderColor: "background.body" }}
           />
         </Box>
-        <Typography fontWeight="lg">Instagram</Typography>
+        <Typography fontWeight="lg"  sx={{padding:'7px'}}>Instagram</Typography>
         <IconButton
           variant="plain"
           color="neutral"
