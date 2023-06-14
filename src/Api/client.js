@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
-// export const BASE_URL = 'https://socialspaceapi.cyclic.app/api'
-const BASE_URL='http://localhost:4000/api/'
+export const BASE_URL = 'https://socialspaceapi.cyclic.app/api'
+// const BASE_URL='http://localhost:4000/api/'
 
 export const METHODS = {
     GET: 'get',

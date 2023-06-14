@@ -89,8 +89,8 @@ export default function UserPost() {
     setAnchorElUser(null);
   };
 
-  // const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
-  // const date = date.toLocaleDateString('en-EN', options)
+  const [showTextField, setShowTextField] = useState(false);
+  const [comment, setComment] = useState("");
   const dispatch = useDispatch();
   const [myPost, setmyPost] = useState([]);
   const [data, updatedata] = useState([]);
@@ -98,6 +98,21 @@ export default function UserPost() {
   const drawerWidth = 240;
   const Ipad = useMediaQuery("(min-width:900px)");
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
+  const handleButtonClick = () => {
+    setShowTextField(true);
+  };
+
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Updated comment:", comment);
+    setShowTextField(false);
+  };
+
   useEffect(() => {
     dispatch(fetchData()).then((response) => {
       //console.log("Here----------->", response.payload.message.error);
@@ -121,6 +136,9 @@ export default function UserPost() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  let x = Math.random() * 1000;
+  let y = Math.floor(x);
   return (
     <Box
       sx={{
@@ -136,7 +154,7 @@ export default function UserPost() {
             variant="outlined"
             sx={{
               width: 300,
-              borderColor:'#ff0080'
+              borderColor: "#ff0080",
             }}
             key={index}
             elevation={12}
@@ -190,7 +208,10 @@ export default function UserPost() {
                   onClose={handleCloseUserMenu}
                 >
                   <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1 }}>
-                    <EditIcon sx={{ color: "#ff0080" }} />
+                    <EditIcon
+                      sx={{ color: "#ff0080" }}
+                      onClick={handleButtonClick}
+                    />
                     <Typography
                       textAlign="center"
                       fontWeight={500}
@@ -245,17 +266,30 @@ export default function UserPost() {
               </IconButton>
             </Box>
             <Box>
-              <Typography
-                textAlign="left"
-                sx={{
-                  display: "-webkit-box",
-                  overflow: "hidden",
-                  WebkitBoxOrient: "vertical",
-                  WebkitLineClamp: 2,
-                }}
-              >
-                {item.caption}
-              </Typography>
+              <Typography textAlign={"left"}>{y} likes</Typography>
+
+              {showTextField ? (
+                <form onSubmit={handleSubmit}>
+                  <textarea
+                    style={{ width: "260px", height: "80px" }}
+                    value={item.caption}
+                    onChange={handleCommentChange}
+                  />
+                  <button type="submit">Update Comment</button>
+                </form>
+              ) : (
+                <Typography
+                  textAlign="left"
+                  sx={{
+                    display: "-webkit-box",
+                    overflow: "hidden",
+                    WebkitBoxOrient: "vertical",
+                    WebkitLineClamp: 2,
+                  }}
+                >
+                  {item.caption}
+                </Typography>
+              )}
             </Box>
           </Card>
         ))}

@@ -5,6 +5,7 @@ import {
   Avatar,
   Box,
   Card,
+  Container,
   IconButton,
   Typography,
   useMediaQuery,
@@ -17,7 +18,7 @@ import { ConnectingAirportsOutlined } from "@mui/icons-material";
 export default function Search() {
   const navigate = useNavigate();
   // const dataContext = useContext();
-  const Ipad = useMediaQuery("(min-width:900px)");
+  const Ipad = useMediaQuery("(min-width:950px)");
   const [results, setResults] = useState();
 
   const handleChange = async (name) => {
@@ -109,23 +110,24 @@ export default function Search() {
           })}
         </div>
       ) : (
-        <Box
-        sx={{
-          width: Ipad ? `calc(100% - ${DRAWER_WIDTH}px)` : "100%",
-          ml: Ipad ? `${DRAWER_WIDTH}px` : null,
-          mt: "20px",
+        <div 
+         style={{
+          // width: Ipad ? `calc(100% - ${DRAWER_WIDTH}px)` : "100%",
+          // ml: Ipad ? `${DRAWER_WIDTH}px` : null,
+          // mt: "20px",
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
           alignItems: "center",
-        }}
-      >
+        }}>
           <img
-            src="https://img.freepik.com/premium-vector/programmers-testing-applications_179970-1132.jpg?w=1380"
-           
+            src="https://img.freepik.com/premium-vector/programmers-testing-applications_179970-1132.jpg"
             alt=""
+            style={{
+              width:Ipad ? "600px" : "300px"
+            }}
           />
-        </Box>
+          </div>
       )}
     </div>
   );

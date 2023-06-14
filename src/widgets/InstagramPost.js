@@ -108,7 +108,7 @@ export default function InstagramPost({ id, img }) {
         </AspectRatio>
       </CardOverflow>
 
-      <Box sx={{ display: "flex", alignItems: "center", mx: -1, my: 1 }}>
+      <Box sx={{ display: "flex", alignItems: "center"}}>
         <Box sx={{ width: 0, display: "flex", gap: 0.5 }}>
           <IconButton variant="plain" color="neutral" size="sm">
             <Checkbox
