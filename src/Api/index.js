@@ -62,7 +62,7 @@ export const api = {
   myPost: {
     post: (params) => {
       return client({
-        url: "posts/create",
+        url: "posts",
         data: params,
         method: METHODS.POST,
         headers: {
@@ -75,6 +75,7 @@ export const api = {
       client({
         url: "posts",
         method: METHODS.GET,
+        data:params,
         headers: {
           "Content-type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -89,21 +90,53 @@ export const api = {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-    getByName: (id, params) =>
+    getByName: (userName, params) =>
       client({
-        url: `posts/user/${id}`,
+        url: `posts/user/${userName}`,
         method: METHODS.GET,
         headers: {
           "Content-type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
+      delete: (id, params) =>
+      client({
+        url: `posts/${id}`,
+        method: METHODS.DELETE,
+        headers: {
+          "Content-type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }),
+      edit: (id, params) =>
+      client({
+        url: `posts/${id}`,
+        method: METHODS.PUT,
+        data: params,
+        headers: {
+          "Content-type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }),
+  },
+
+  like:{
+      post:(id,params)=>
+      client({
+        url: `posts/${id}/like`,
+        method: METHODS.POST,
+        data: params,
+        headers: {
+          "Content-type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
   },
 
   followers: {
-    get: (userName, params) =>
+    get: (id, params) =>
       client({
-        url: `users/followers/${userName}`,
+        url: `users/${id}/followers`,
         method: METHODS.GET,
         headers: {
           "Content-type": "multipart/form-data",
@@ -112,10 +145,10 @@ export const api = {
       }),
   },
 
-  followings: {
-    get: (userName, params) =>
+  following: {
+    get: (id, params) =>
       client({
-        url: `users/followings/${userName}`,
+        url: `users/${id}/following`,
         method: METHODS.GET,
         headers: {
           "Content-type": "multipart/form-data",
@@ -125,9 +158,9 @@ export const api = {
   },
 
   follow: {
-    post: (userName, params) =>
+    post: (id, params) =>
       client({
-        url: `users/follow/${userName}`,
+        url: `users/${id}/follow`,
         method: METHODS.POST,
         headers: {
           "Content-type": "multipart/form-data",
@@ -137,10 +170,10 @@ export const api = {
   },
 
   unfollow: {
-    post: (userName, params) =>
+    post: (id, params) =>
       client({
-        url: `users/unfollow/${userName}`,
-        method: METHODS.POST,
+        url: `users/${id}/unfollow`,
+        method: METHODS.DELETE,
         headers: {
           "Content-type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

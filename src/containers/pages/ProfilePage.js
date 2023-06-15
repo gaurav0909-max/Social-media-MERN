@@ -26,23 +26,30 @@ import { fetchProfileById } from "../../redux/reducers/userProfileSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { api } from "../../Api";
 import { ICONS } from "../../Assets/Icons";
+import UserPost from "../../widgets/UserPost";
 
 function ProfilePage() {
   const dispatch = useDispatch();
 
-  const { profile } = useSelector((state) => state.userProfile);
-
-  console.log(profile.data.user.profileImage)
   const [data, updatedata] = useState("");
-  const [userName, setuserName] = useState("");
   const [profileImage, setProfileImage] = useState("");
+  const [followers, setfollowers] = useState();
+  const [followings, setfollowings] = useState();
+  const [showfollowers, setshowfollowers] = useState([]);
+  const [showfollowings, setshowfollowings] = useState([]);
+  const [start, setStart] = useState(false);
+  const [initial, setInitial] = useState(false);
+  const Ipad = useMediaQuery("(min-width:900px)");
+  const windowWidth = useRef(window.innerWidth);
+  const [open, setOpen] = React.useState(false);
+  const [countPost, setcountPost] = useState();
   const [loading, setLoading] = useState(true);
   const imageHandler = (e) => {
     if (e.target.files[0]) {
       setProfileImage(e.target.files[0]);
     }
   };
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -59,7 +66,7 @@ function ProfilePage() {
       [e.target.name]: e.target.value,
     });
   };
-//  console.log('data', data.userName)
+  //  console.log('data', data.userName)
   const handleSubmit = async (e) => {
     e.preventDefault();
     let formdata = new FormData();
@@ -75,23 +82,14 @@ function ProfilePage() {
 
   useEffect(() => {
     dispatch(fetchProfileById()).then((response) => {
-      console.log(response)
+      setcountPost(response.payload.data.data.user.posts);
+      setfollowings(response.payload.data.data.user.following);
+      setfollowers(response.payload.data.data.user.followers);
       updatedata(response.payload.data.data.user);
       setProfileImage(response.payload.data.data.user.profileImage);
-      setuserName(response.payload.data.data.user.userName);
       setLoading(false);
     });
   }, [dispatch]);
-  const [followers, setfollowers] = useState();
-  const [followings, setfollowings] = useState();
-  const [showfollowers, setshowfollowers] = useState([]);
-  const [showfollowings, setshowfollowings] = useState([]);
-  const [start, setStart] = useState(false);
-  const [initial, setInitial] = useState(false);
-  const Ipad = useMediaQuery("(min-width:900px)");
-  const windowWidth = useRef(window.innerWidth);
-  const [open, setOpen] = React.useState(false);
-  const [countPost, setcountPost] = useState();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -116,24 +114,17 @@ function ProfilePage() {
   const handleEnd = () => {
     setInitial(false);
   };
-  //  console.log(file)
+
   const handleAPI = async () => {
-    const followers = await api.followers.get(userName);
+    const followers = await api.followers.get(data._id);
     setshowfollowers(followers.data.data.followers);
-    console.log(followers.data.data.followers);
-    setfollowers(followers.data.data.TotalFollowers);
-
-    const followings = await api.followings.get(userName);
+    const followings = await api.following.get(data._id);
     setshowfollowings(followings.data.data.following);
-    setfollowings(followings.data.data.TotalFollowing);
-
-    const PostCount = await api.myPost.get();
-    setcountPost(PostCount.data.data.totalPosts);
     setLoading(false);
   };
-  // useEffect(() => {
-  //     handleAPI()
-  // }, [userName])
+  useEffect(() => {
+    handleAPI();
+  }, [data._id]);
   const dialogWidth = 500;
   return (
     <div>
@@ -157,7 +148,7 @@ function ProfilePage() {
         >
           <Avatar
             display="none"
-            src={profile?.data?.user?.profileImage}
+            src={profileImage}
             sx={{ width: "100px", height: "100px", borderRadius: "70px" }}
           />
           <Typography variant="overline">{data.fullName}</Typography>
@@ -329,39 +320,57 @@ function ProfilePage() {
             circle={true}
             PaperProps={{ style: { width: dialogWidth } }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <DialogTitle color="#FF0080">Followers</DialogTitle>
-              <Button
-                onClick={handleOff}
-                style={{ backgroundColor: "#ff0080" }}
-              >
-                <ICONS.Cross sx={{ color: "white" }} />
-              </Button>
-            </div>
-            <Divider />
-            <DialogContent>
-              {showfollowers.map((item, index) => (
-                <Card
-                  fullwidth
-                  sx={{ display: "flex", flexDirection: "row", gap: 7 }}
-                  key={index}
+            {loading ? (
+              <img
+                src={require("../../Assets/9921-loader.gif")}
+                alt="loading..."
+                width={200}
+                height={200}
+              />
+            ) : (
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
                 >
-                  <Avatar
-                    src={item.profileImage}
-                    sx={{ height: "70px", width: "70px" }}
-                  />
-                  <Typography variant="h5" textColor="#FF0080">
-                    {item.userName}
-                  </Typography>
-                </Card>
-              ))}
-            </DialogContent>
+                  <DialogTitle color="#FF0080">Followers</DialogTitle>
+                  <Button
+                    onClick={handleOff}
+                    style={{ backgroundColor: "#ff0080" }}
+                  >
+                    <ICONS.Cross sx={{ color: "white" }} />
+                  </Button>
+                </div>
+                <Divider />
+                <DialogContent>
+                  {showfollowers.map((item, index) =>
+                    loading ? (
+                      <img
+                        src={require("../../Assets/98195-loader.gif")}
+                        alt="loading..."
+                      />
+                    ) : (
+                      <Card
+                        fullwidth
+                        sx={{ display: "flex", flexDirection: "row", gap: 7 }}
+                        key={index}
+                      >
+                        <Avatar
+                          src={item.profileImage}
+                          sx={{ height: "70px", width: "70px" }}
+                        />
+                        <Typography variant="h5" textColor="#FF0080">
+                          {item.userName}
+                        </Typography>
+                      </Card>
+                    )
+                  )}
+                </DialogContent>
+              </div>
+            )}
           </Dialog>
 
           <Dialog
@@ -389,8 +398,9 @@ function ProfilePage() {
             <DialogContent>
               {showfollowings.map((item, index) => (
                 <Card
+                elevation={3}
                   fullwidth
-                  sx={{ display: "flex", flexDirection: "row", gap: 7 }}
+                  sx={{ display: "flex", flexDirection: "row", margin:'15px' }}
                   key={index}
                 >
                   <Avatar
@@ -406,6 +416,16 @@ function ProfilePage() {
           </Dialog>
         </CardActions>
       </Card>
+
+     {loading ?  <img
+                src={require("../../Assets/66724-pastel-bead-loader.gif")}
+                alt="loading..."
+                width={200}
+                height={200}
+                style={{
+                  margin:'50px'
+                }}
+              />:<UserPost user={data.userName} />} 
     </div>
   );
 }

@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { api } from '../../Api';
 import { ICONS } from '../../Assets/Icons';
+import OthersPost from '../../widgets/OthersPost';
 
 function CustomizeProfile() {
     const [count, setCount] = useState(0)
@@ -27,34 +28,37 @@ function CustomizeProfile() {
     const { userName, bio, profileImage, fullName, id } = location.state;
 
     const followAPI = async () => {
-        const follow = await api.follow.post(userName)
+        const follow = await api.follow.post(id)
+        
         console.log(follow.data)
         handleAPI()
+        window.location.reload();
     }
 
     const unfollowAPI = async () => {
-        const unfollow = await api.unfollow.post(userName)
+        const unfollow = await api.unfollow.post(id)
         console.log(unfollow.data)
         handleAPI()
+        window.location.reload();
     }
 
     const handleAPI = async () => {
-        const followers = await api.followers.get(userName)
+        const followers = await api.followers.get(id)
+        console.log(followers.data.data.followers.length)
         setshowfollowers(followers.data.data.followers)
-        setfollowers(followers.data.data.TotalFollowers)
+        setfollowers(followers.data.data.followers.length)
 
-        const followings = await api.followings.get(userName)
+        const followings = await api.following.get(id)
         setshowfollowings(followings.data.data.following)
-        setfollowings(followings.data.data.TotalFollowing)
+        setfollowings(followings.data.data.following.length)
 
-        const PostCount = await api.myPost.getByName(id)
-        console.log(PostCount.data)
-        setCount(PostCount.data.totalPosts)
+        const PostCount = await api.myPost.getByName(userName)
+        setCount(PostCount.data.data.posts.length)
         setLoading(false)
     }
-    // useEffect(() => {
-    //     handleAPI()
-    // }, [userName])
+    useEffect(() => {
+        handleAPI()
+    }, [userName])
     const handleClickStart = () => {
         setStart(true);
     };
@@ -219,6 +223,7 @@ function CustomizeProfile() {
 
                 </Dialog>
             </Card>
+            <OthersPost/>
         </div>
     )
 }

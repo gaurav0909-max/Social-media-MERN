@@ -90,10 +90,11 @@ export default function OthersPost() {
   const [error, setError] = useState("");
   const [data, updatedata] = useState([]);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true)
   const drawerWidth = 240;
   const Ipad = useMediaQuery("(min-width:900px)");
   const location = useLocation();
-  const { id, fullName, profileImage } = location.state;
+  const { userName, fullName, profileImage } = location.state;
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -108,8 +109,9 @@ export default function OthersPost() {
 
   const handleAPI = async () => {
     try {
-      const Posts = await api.myPost.getByName(id);
+      const Posts = await api.myPost.getByName(userName);
       setPostdata(Posts.data.data.posts);
+      setLoading(false)
     } catch (error) {
       console.error("Error fetching data from the API:", error.message.message);
       setError(error.message.message);
@@ -128,7 +130,6 @@ export default function OthersPost() {
     setOpen(false);
   };
 
-  console.log(error);
 
   if (error) {
     return (
@@ -157,15 +158,22 @@ export default function OthersPost() {
     );
   } else {
     return (
+
       <Box
         sx={{
           width: Ipad ? `calc(100% - ${drawerWidth}px)` : "100%",
           ml: Ipad ? `${drawerWidth}px` : null,
           mt: "20px",
         }}
-      >
+      >{loading ?  <img
+        src={require("../Assets/66724-pastel-bead-loader.gif")}
+        alt="loading..."
+        width={200}
+        height={200}
+      />:<div>
         <Grid container columns={18} sx={{ gap: 1 }}>
           {postdata.map((item, index) => (
+            
             <Card
               variant="outlined"
               sx={{
@@ -189,7 +197,7 @@ export default function OthersPost() {
                 <div>
                   <Typography level="h6">{fullName}</Typography>
                   <Typography level="body3" textAlign={"left"}>
-                    {formateDate(item.createdDate)}
+                    {formateDate(item.createdAt)}
                   </Typography>
                 </div>
 
@@ -419,6 +427,8 @@ export default function OthersPost() {
               </Button>
             </DialogActions> */}
         </Dialog>
+        </div>
+  }
       </Box>
     );
   }

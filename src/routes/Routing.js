@@ -68,7 +68,6 @@ const Routing = () => {
                 <>
                     <DrawerElement />
                     <ProfilePage />
-                    <UserPost />
                     <FixedBottomNavigation/>
                 </>
             } />
@@ -85,7 +84,7 @@ const Routing = () => {
                 <>
                     <DrawerElement />
                     < CustomizeProfile />
-                    <OthersPost/>
+                  
                     <FixedBottomNavigation/>
                     {/* <UserPost /> */}
                 </>
