@@ -1,52 +1,3 @@
-// import * as React from 'react';
-// import ImageList from '@mui/material/ImageList';
-// import ImageListItem from '@mui/material/ImageListItem';
-// import { Typography, useMediaQuery } from '@mui/material';
-// import { useDispatch } from 'react-redux';
-// import { useEffect } from 'react';
-// import { fetchData } from '../redux/reducers/dataSlice';
-// import { useState } from 'react';
-// export default function UserPost() {
-//   const dispatch =useDispatch()
-//   const [myPost, setmyPost]=useState([])
-//   const drawerWidth = 240;
-//   const Ipad = useMediaQuery('(min-width:900px)');
-
-//   useEffect(() => {dispatch(fetchData()).then((response) => {
-//     console.log("Here----------->",response.payload.data.posts)
-//     setmyPost(response.payload.data.posts)
-//   })
-// },[dispatch])
-//   return (
-//     <div>
-
-//       <ImageList
-//         sx={{
-//           width: Ipad ? `calc(100% - ${drawerWidth}px)` : '100%', height: '700px',
-//           ml: Ipad ? `${drawerWidth}px` : null,
-//           mt: '20px',
-//         }} columns={18}>
-
-//         {myPost.map((item, index) => (
-//           <ImageListItem sm={18} key={index}>
-//             <img
-//               src={`${item.postImage}?w=358&h=358&fit=crop&auto=format`}
-//               srcSet={`${item.postImage}?w=358&h=358&fit=crop&auto=format&dpr=2 2x`}
-//               alt=''
-//               loading="lazy"
-//             />
-//             <Typography key={index}>
-//               {item.caption}
-//             </Typography>
-
-//           </ImageListItem>
-
-//         ))}
-
-//       </ImageList>
-//     </div>
-//   );
-// }
 import * as React from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Avatar from "@mui/joy/Avatar";
@@ -80,31 +31,38 @@ import { api } from "../Api";
 export default function UserPost({ user }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [selectedPostId, setSelectedPostId] = React.useState(null);
+  const [editPostId, seteditPostId] = React.useState(null);
+  const [showTextField, setShowTextField] = useState(false);
+  const [caption, setCaption] = useState("");
+  const dispatch = useDispatch();
+  const [myPost, setmyPost] = useState([]);
+  const [data, updatedata] = useState([]);
+  const [allcomments, setAllcomments] = useState([]);
+  const [open, setOpen] = useState(false);
+  const drawerWidth = 240;
+  const Ipad = useMediaQuery("(min-width:900px)");
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const handleOpenUserMenu = (event, id) => {
     setAnchorElUser(event.currentTarget);
+    setShowTextField(false)
     setSelectedPostId(id);
+    seteditPostId(id)
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
-  const [showTextField, setShowTextField] = useState(false);
-  const [comment, setComment] = useState("");
-  const dispatch = useDispatch();
-  const [myPost, setmyPost] = useState([]);
-  const [data, updatedata] = useState([]);
-  const [open, setOpen] = useState(false);
-  const drawerWidth = 240;
-  const Ipad = useMediaQuery("(min-width:900px)");
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
   const handleEdit = async (id) => {
-    setShowTextField(true);
-    console.log("id", id);
+    try {
+      setShowTextField(true);
+    } catch {
+      setShowTextField(false);
+    }
   };
 
+  
   const handleDelete = async (id) => {
     console.log(id);
     const details = await api.myPost.delete(id);
@@ -117,27 +75,33 @@ export default function UserPost({ user }) {
     await window.location.reload();
     console.log("likes", likes.data.message);
   };
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
+  const handleCaptionChange = (event) => {
+    setCaption(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Updated comment:", comment);
+  const handleSubmit = (e,id,) => {
+    e.preventDefault();
+    console.log("Updated comment:", caption);
+    const editedPost = api.myPost.edit(id)
+    console.log(editedPost)
     setShowTextField(false);
   };
 
-
   const handlePost = async () => {
     const post = await api.myPost.getByName(user);
+    console.log('post', post.data.data.posts)
     setmyPost(post.data.data.posts);
   };
 
   useEffect(() => {
-    dispatch(fetchProfileById()).then((response) => {
-      updatedata(response.payload.data.data.user);
-    }, handlePost());
-  }, [dispatch, user, handlePost()]);
+    dispatch(fetchProfileById()).then(
+      (response) => {
+        updatedata(response.payload.data.data.user);
+      },
+      handlePost(),
+      handleCommentApi()
+    );
+  }, [dispatch, user]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -147,7 +111,17 @@ export default function UserPost({ user }) {
     setOpen(false);
   };
 
-  
+  const handleCommentApi = async (id) => {
+    try {
+      setAllcomments([])
+      const info = await api.Comment.get(id);
+      console.log(info.data.data);
+      setAllcomments(info.data.data.comments);
+    } catch {
+       setAllcomments([]);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -275,7 +249,10 @@ export default function UserPost({ user }) {
                 variant="plain"
                 color="neutral"
                 size="sm"
-                onClick={handleClickOpen}
+                onClick={() => {
+                  handleClickOpen(item._id);
+                  handleCommentApi(item._id);
+                }}
               >
                 {/* <Checkbox {...label} icon={<ICONS.CommentsBorder sx={{ color: 'black' }} />} checkedIcon={<ICONS.Comments sx={{ color: 'black' }} />} /> */}
                 <ICONS.CommentsBorder />
@@ -292,14 +269,15 @@ export default function UserPost({ user }) {
             <Box>
               <Typography textAlign={"left"}>{item.likes} likes</Typography>
 
-              {showTextField ? (
-                <form onSubmit={handleSubmit}>
+              {showTextField  && editPostId===item._id ? (
+                <form >
                   <textarea
                     style={{ width: "260px", height: "80px" }}
-                    value={item.caption}
-                    onChange={handleCommentChange}
+                    value={caption}
+                    name="caption"
+                    onChange={handleCaptionChange}
                   />
-                  <button type="submit">Update Comment</button>
+                  <button type="submit" onClick={(e)=>{handleSubmit(e,selectedPostId)}}>Update Comment</button>
                 </form>
               ) : (
                 <Typography
@@ -336,119 +314,41 @@ export default function UserPost({ user }) {
           <DialogContentText>
             All comments will be shown here!
           </DialogContentText>
-
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                gaurav0909
-              </Typography>
-              <Typography variant="subtitle1">
-                You and strong Wi-Fi are what I only need in my life.
-              </Typography>
-            </div>
-          </Card>
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                Jayhind123
-              </Typography>
-              <Typography variant="subtitle1">
-                You really light up a room…and my Instagram feed.
-              </Typography>
-            </div>
-          </Card>
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                gaurav0909
-              </Typography>
-              <Typography variant="subtitle1">
-                This has such a clean composition
-              </Typography>
-            </div>
-          </Card>
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                gaurav0909
-              </Typography>
-              <Typography variant="subtitle1">
-                You and strong Wi-Fi are what I only need in my life.
-              </Typography>
-            </div>
-          </Card>
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                Mahi777
-              </Typography>
-              <Typography variant="subtitle1">
-                How do you make a phone selfie look so professional?
-              </Typography>
-            </div>
-          </Card>
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                hiren4434
-              </Typography>
-              <Typography variant="subtitle1">
-                Excuse me, but who is this model I’m following?
-              </Typography>
-            </div>
-          </Card>
-          <Card sx={{ display: "flex", flexDirection: "row", gap: 7 }}>
-            <Avatar
-              src="https://img.freepik.com/premium-vector/person-avatar-icon-design-vector-multiple-use-vector-illustration_625349-287.jpg?w=360"
-              sx={{ height: "70px", width: "70px" }}
-            />
-            <div>
-              <Typography variant="h5" textColor="#FF0080">
-                {data.userName}
-              </Typography>
-            </div>
-          </Card>
+          
+          {allcomments.map((item, index) => (
+            <Card
+              sx={{ display: "flex", flexDirection: "row", gap: 7 }}
+              key={index}
+            >
+              <Avatar
+                src={item.user.profileImage}
+                sx={{ height: "70px", width: "70px" }}
+              />
+              <div>
+                <Typography variant="h5" textColor="#FF0080">
+                  {item.user.fullName}
+                </Typography>
+                <Typography variant="subtitle1">{item.content}</Typography>
+              </div>
+            </Card>
+          ))}
         </DialogContent>
         {/* <DialogActions>
-                <TextField
-                  fullWidth
-                  name="comments"
-                  label="Add your comments"
-                  onChange={handleChange}
-                />
-                <Button
-                  color="error"
-                  onClick={() => {
-                    handleValue();
-                  }}
-                >
-                  Post
-                </Button>
-              </DialogActions> */}
+          <TextField
+            fullWidth
+            name="comments"
+            label="Add your comments"
+            onChange={handleChange}
+          />
+          <Button
+            color="error"
+            onClick={() => {
+              handleValue();
+            }}
+          >
+            Post
+          </Button>
+        </DialogActions> */}
       </Dialog>
     </Box>
   );

@@ -75,16 +75,7 @@ export const api = {
       client({
         url: "posts",
         method: METHODS.GET,
-        data:params,
-        headers: {
-          "Content-type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }),
-      editPost: (postId,params) =>
-      client({
-        url: `posts/edit/${postId}`,
-        method: METHODS.PUT,
+        data: params,
         headers: {
           "Content-type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -99,7 +90,7 @@ export const api = {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-      delete: (id, params) =>
+    delete: (id, params) =>
       client({
         url: `posts/${id}`,
         method: METHODS.DELETE,
@@ -108,11 +99,11 @@ export const api = {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-      edit: (id, params) =>
+    edit: (id, data) =>
       client({
         url: `posts/${id}`,
         method: METHODS.PUT,
-        data: params,
+        data,
         headers: {
           "Content-type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -120,8 +111,8 @@ export const api = {
       }),
   },
 
-  like:{
-      post:(id,params)=>
+  like: {
+    post: (id, params) =>
       client({
         url: `posts/${id}/like`,
         method: METHODS.POST,
@@ -130,7 +121,29 @@ export const api = {
           "Content-type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      })
+      }),
+  },
+  Comment: {
+    post: (id, params) =>
+      client({
+        url: `posts/${id}/comment`,
+        method: METHODS.POST,
+        data: params,
+        headers: {
+          "Content-type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }),
+    get: (id, params) =>
+      client({
+        url: `posts/${id}/comments`,
+        method: METHODS.GET,
+        data: params,
+        headers: {
+          "Content-type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }),
   },
 
   followers: {
