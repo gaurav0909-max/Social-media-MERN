@@ -67,10 +67,8 @@ import {
   Grid,
   Menu,
   MenuItem,
-  Tooltip,
   useMediaQuery,
 } from "@mui/material";
-import { fetchData } from "../redux/reducers/dataSlice";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -81,9 +79,11 @@ import { api } from "../Api";
 
 export default function UserPost({ user }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [selectedPostId, setSelectedPostId] = React.useState(null);
 
-  const handleOpenUserMenu = (event) => {
+  const handleOpenUserMenu = (event, id) => {
     setAnchorElUser(event.currentTarget);
+    setSelectedPostId(id);
   };
 
   const handleCloseUserMenu = () => {
@@ -99,10 +99,10 @@ export default function UserPost({ user }) {
   const drawerWidth = 240;
   const Ipad = useMediaQuery("(min-width:900px)");
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-  const [like, setLike] = useState(0);
-  const handleEdit = async(id) => {
+
+  const handleEdit = async (id) => {
     setShowTextField(true);
-    console.log('id', id)
+    console.log("id", id);
   };
 
   const handleDelete = async (id) => {
@@ -111,11 +111,12 @@ export default function UserPost({ user }) {
     await window.location.reload();
     console.log(details);
   };
-  
-  const handleLike = async(id)=>{
-    const likes = await api.like.post(id)
-    console.log('likes', likes.data.message)
-  }
+
+  const handleLike = async (id) => {
+    const likes = await api.like.post(id);
+    await window.location.reload();
+    console.log("likes", likes.data.message);
+  };
   const handleCommentChange = (event) => {
     setComment(event.target.value);
   };
@@ -126,7 +127,6 @@ export default function UserPost({ user }) {
     setShowTextField(false);
   };
 
-  console.log("user", user);
 
   const handlePost = async () => {
     const post = await api.myPost.getByName(user);
@@ -137,7 +137,7 @@ export default function UserPost({ user }) {
     dispatch(fetchProfileById()).then((response) => {
       updatedata(response.payload.data.data.user);
     }, handlePost());
-  }, [dispatch, user]);
+  }, [dispatch, user, handlePost()]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -147,8 +147,7 @@ export default function UserPost({ user }) {
     setOpen(false);
   };
 
-  let x = Math.random() * 1000;
-  let y = Math.floor(x);
+  
   return (
     <Box
       sx={{
@@ -190,17 +189,15 @@ export default function UserPost({ user }) {
                 </Typography>
               </div>
               <Box sx={{ flexGrow: 2 }}>
-                <Tooltip>
-                  <IconButton
-                    onClick={handleOpenUserMenu}
-                    variant="plain"
-                    color="neutral"
-                    size="sm"
-                    sx={{ ml: "auto" }}
-                  >
-                    <ICONS.Dots />
-                  </IconButton>
-                </Tooltip>
+                <IconButton
+                  onClick={(e) => handleOpenUserMenu(e, item._id)}
+                  variant="plain"
+                  color="neutral"
+                  size="sm"
+                  sx={{ ml: "auto" }}
+                >
+                  <ICONS.Dots />
+                </IconButton>
                 <Menu
                   sx={{ mt: "45px" }}
                   id="menu-appbar"
@@ -221,7 +218,7 @@ export default function UserPost({ user }) {
                   <MenuItem
                     onClick={() => {
                       handleCloseUserMenu();
-                      handleEdit(item._id);
+                      handleEdit(selectedPostId);
                     }}
                     sx={{ gap: 1 }}
                   >
@@ -237,7 +234,7 @@ export default function UserPost({ user }) {
                   <MenuItem
                     onClick={() => {
                       handleCloseUserMenu();
-                      handleDelete(item._id);
+                      handleDelete(selectedPostId);
                     }}
                     sx={{ gap: 1 }}
                   >
@@ -260,7 +257,14 @@ export default function UserPost({ user }) {
             </Box>
 
             <Box sx={{ display: "flex" }} key={index}>
-              <IconButton variant="plain" color="neutral" size="sm" onClick={()=>{handleLike(item._id)}}>
+              <IconButton
+                variant="plain"
+                color="neutral"
+                size="sm"
+                onClick={() => {
+                  handleLike(item._id);
+                }}
+              >
                 <Checkbox
                   {...label}
                   icon={<ICONS.LikeBorder sx={{ color: "red" }} />}
@@ -286,7 +290,7 @@ export default function UserPost({ user }) {
               </IconButton>
             </Box>
             <Box>
-              <Typography textAlign={"left"}>{y} likes</Typography>
+              <Typography textAlign={"left"}>{item.likes} likes</Typography>
 
               {showTextField ? (
                 <form onSubmit={handleSubmit}>
