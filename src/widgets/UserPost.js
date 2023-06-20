@@ -18,22 +18,27 @@ import {
   Grid,
   Menu,
   MenuItem,
+  TextField,
   useMediaQuery,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 import { ICONS } from "../Assets/Icons";
 import { fetchProfileById } from "../redux/reducers/userProfileSlice";
 import { formateDate } from "../utils/helpers/formateDate";
 import { api } from "../Api";
+import { fetchPost } from "../redux/reducers/PostReducer";
 
 export default function UserPost({ user }) {
+  const initialState = {
+    caption: "",
+  };
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [selectedPostId, setSelectedPostId] = React.useState(null);
   const [editPostId, seteditPostId] = React.useState(null);
   const [showTextField, setShowTextField] = useState(false);
-  const [caption, setCaption] = useState("");
+  const [details, setDetails] = useState(initialState);
   const dispatch = useDispatch();
   const [myPost, setmyPost] = useState([]);
   const [data, updatedata] = useState([]);
@@ -43,11 +48,13 @@ export default function UserPost({ user }) {
   const Ipad = useMediaQuery("(min-width:900px)");
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
+  // const Post = useSelector((state) => state.post.data);
+  // console.log(Post);
   const handleOpenUserMenu = (event, id) => {
     setAnchorElUser(event.currentTarget);
-    setShowTextField(false)
+    setShowTextField(false);
     setSelectedPostId(id);
-    seteditPostId(id)
+    seteditPostId(id);
   };
 
   const handleCloseUserMenu = () => {
@@ -62,7 +69,6 @@ export default function UserPost({ user }) {
     }
   };
 
-  
   const handleDelete = async (id) => {
     console.log(id);
     const details = await api.myPost.delete(id);
@@ -75,21 +81,32 @@ export default function UserPost({ user }) {
     await window.location.reload();
     console.log("likes", likes.data.message);
   };
-  const handleCaptionChange = (event) => {
-    setCaption(event.target.value);
+  const handleCaptionChange = (e) => {
+    const { value } = e.target;
+    setDetails({ ...details, caption: value });
   };
 
-  const handleSubmit = (e,id,) => {
+  const handleSubmit = async (e, id) => {
     e.preventDefault();
-    console.log("Updated comment:", caption);
-    const editedPost = api.myPost.edit(id)
-    console.log(editedPost)
-    setShowTextField(false);
+    const data = {
+      id: id,
+      caption: details.caption,
+    };
+    console.log("caption", data);
+    try {
+      const editedPost = await api.myPost.edit(data);
+      console.log(editedPost);
+      handlePost();
+      dispatch(fetchPost(user));
+      setShowTextField(false);
+    } catch (error) {
+      console.log("Error updating caption:", error);
+    }
   };
 
   const handlePost = async () => {
     const post = await api.myPost.getByName(user);
-    console.log('post', post.data.data.posts)
+    console.log("post", post.data.data.posts);
     setmyPost(post.data.data.posts);
   };
 
@@ -113,12 +130,12 @@ export default function UserPost({ user }) {
 
   const handleCommentApi = async (id) => {
     try {
-      setAllcomments([])
+      setAllcomments([]);
       const info = await api.Comment.get(id);
       console.log(info.data.data);
       setAllcomments(info.data.data.comments);
     } catch {
-       setAllcomments([]);
+      setAllcomments([]);
     }
   };
 
@@ -269,15 +286,26 @@ export default function UserPost({ user }) {
             <Box>
               <Typography textAlign={"left"}>{item.likes} likes</Typography>
 
-              {showTextField  && editPostId===item._id ? (
-                <form >
-                  <textarea
+              {showTextField && editPostId === item._id ? (
+                <form>
+                  <TextField
                     style={{ width: "260px", height: "80px" }}
-                    value={caption}
+                    value={details.caption}
                     name="caption"
-                    onChange={handleCaptionChange}
+                    onChange={(e) => handleCaptionChange(e)}
+                    multiline
                   />
-                  <button type="submit" onClick={(e)=>{handleSubmit(e,selectedPostId)}}>Update Comment</button>
+                  <Button
+                    type="submit"
+                    sx={{
+                      color: "#ff0080",
+                    }}
+                    onClick={(e) => {
+                      handleSubmit(e, selectedPostId);
+                    }}
+                  >
+                    Update Comment
+                  </Button>
                 </form>
               ) : (
                 <Typography
@@ -314,7 +342,7 @@ export default function UserPost({ user }) {
           <DialogContentText>
             All comments will be shown here!
           </DialogContentText>
-          
+
           {allcomments.map((item, index) => (
             <Card
               sx={{ display: "flex", flexDirection: "row", gap: 7 }}

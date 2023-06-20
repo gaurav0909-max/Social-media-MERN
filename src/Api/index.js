@@ -99,13 +99,12 @@ export const api = {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-    edit: (id, data) =>
+    edit: (data) =>
       client({
-        url: `posts/${id}`,
+        url: `posts/${data.id}`,
+        data:{caption:data.caption},
         method: METHODS.PUT,
-        data,
         headers: {
-          "Content-type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
