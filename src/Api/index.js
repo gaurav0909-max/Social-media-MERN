@@ -123,13 +123,13 @@ export const api = {
       }),
   },
   Comment: {
-    post: (id, params) =>
+    post: (data) =>
       client({
-        url: `posts/${id}/comment`,
+        url: `posts/${data.id}/comment`,
         method: METHODS.POST,
-        data: params,
+        data: {content:data.content},
         headers: {
-          "Content-type": "multipart/form-data",
+          // "Content-type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),

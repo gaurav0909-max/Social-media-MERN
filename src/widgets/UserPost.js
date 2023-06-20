@@ -11,6 +11,7 @@ import {
   Button,
   Checkbox,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -38,6 +39,8 @@ export default function UserPost({ user }) {
   const [selectedPostId, setSelectedPostId] = React.useState(null);
   const [editPostId, seteditPostId] = React.useState(null);
   const [showTextField, setShowTextField] = useState(false);
+  const [value, setvalue] = useState("");
+  const [commentValue, setCommentValue] = useState("");
   const [details, setDetails] = useState(initialState);
   const dispatch = useDispatch();
   const [myPost, setmyPost] = useState([]);
@@ -56,7 +59,10 @@ export default function UserPost({ user }) {
     setSelectedPostId(id);
     seteditPostId(id);
   };
-
+  const handleChange = (e) => {
+    setvalue("");
+    setCommentValue(e.target.value);
+  };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -74,6 +80,9 @@ export default function UserPost({ user }) {
     const details = await api.myPost.delete(id);
     await window.location.reload();
     console.log(details);
+  };
+  const handleValue = () => {
+    setvalue(commentValue);
   };
 
   const handleLike = async (id) => {
@@ -136,6 +145,21 @@ export default function UserPost({ user }) {
       setAllcomments(info.data.data.comments);
     } catch {
       setAllcomments([]);
+    }
+  };
+
+  const commentCreate = async (id) => {
+    const data = {
+      id: id,
+      content: commentValue,
+    };
+
+    try {
+      const comments = await api.Comment.post(data);
+      console.log("comments", comments);
+      handleCommentApi(id);
+    } catch (error) {
+      console.log("Error updating caption:", error);
     }
   };
 
@@ -269,6 +293,7 @@ export default function UserPost({ user }) {
                 onClick={() => {
                   handleClickOpen(item._id);
                   handleCommentApi(item._id);
+                  setSelectedPostId(item._id);
                 }}
               >
                 {/* <Checkbox {...label} icon={<ICONS.CommentsBorder sx={{ color: 'black' }} />} checkedIcon={<ICONS.Comments sx={{ color: 'black' }} />} /> */}
@@ -361,7 +386,8 @@ export default function UserPost({ user }) {
             </Card>
           ))}
         </DialogContent>
-        {/* <DialogActions>
+
+        <DialogActions>
           <TextField
             fullWidth
             name="comments"
@@ -372,11 +398,12 @@ export default function UserPost({ user }) {
             color="error"
             onClick={() => {
               handleValue();
+              commentCreate(selectedPostId);
             }}
           >
             Post
           </Button>
-        </DialogActions> */}
+        </DialogActions>
       </Dialog>
     </Box>
   );
